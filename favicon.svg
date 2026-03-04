@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect width="32" height="32" rx="5" fill="#0c0c0c"/>
+
+  <!-- Camera aperture: 6 overlapping blades clipped to lens circle -->
+  <defs>
+    <clipPath id="lens">
+      <circle cx="16" cy="16" r="13"/>
+    </clipPath>
+  </defs>
+
+  <!-- Lens body -->
+  <circle cx="16" cy="16" r="13" fill="#1a1a1a"/>
+
+  <!-- 6 aperture blades -->
+  <g clip-path="url(#lens)" fill="#c8a96e" opacity="0.92">
+    <ellipse cx="16" cy="9"  rx="5" ry="8" transform="rotate(0   16 16)"/>
+    <ellipse cx="16" cy="9"  rx="5" ry="8" transform="rotate(60  16 16)"/>
+    <ellipse cx="16" cy="9"  rx="5" ry="8" transform="rotate(120 16 16)"/>
+    <ellipse cx="16" cy="9"  rx="5" ry="8" transform="rotate(180 16 16)"/>
+    <ellipse cx="16" cy="9"  rx="5" ry="8" transform="rotate(240 16 16)"/>
+    <ellipse cx="16" cy="9"  rx="5" ry="8" transform="rotate(300 16 16)"/>
+  </g>
+
+  <!-- Dark hexagonal center (the opening) -->
+  <polygon
+    points="16,10.5 19.7,12.5 19.7,16.5 16,18.5 12.3,16.5 12.3,12.5"
+    fill="#0c0c0c"/>
+
+  <!-- Outer ring -->
+  <circle cx="16" cy="16" r="13" fill="none" stroke="#c8a96e" stroke-width="1.5"/>
+
+  <!-- Thin inner ring detail -->
+  <circle cx="16" cy="16" r="10" fill="none" stroke="#c8a96e" stroke-width="0.5" opacity="0.4"/>
+</svg>
