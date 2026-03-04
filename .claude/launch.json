@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "Wildlife Photography",
+      "runtimeExecutable": "/usr/bin/env",
+      "runtimeArgs": ["-C", "/private/tmp", "/Users/albertoorsini/.nvm/versions/node/v24.14.0/bin/node", "/Users/albertoorsini/Downloads/Wildlife Website/server.js"],
+      "port": 3000
+    }
+  ]
+}

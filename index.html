@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Luz Hernandez Kroll Photography</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg:     #0c0c0c;
+      --bg2:    #161616;
+      --text:   #f0ece4;
+      --muted:  #7a7670;
+      --gold:   #c8a96e;
+      --border: #262626;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 200;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.4rem 4rem;
+      background: rgba(12,12,12,0.88);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      letter-spacing: 0.06em;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    nav ul { list-style: none; display: flex; gap: 2.5rem; }
+
+    nav a {
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.25s;
+    }
+    nav a:hover { color: var(--gold); }
+
+    /* ─── HERO ─── */
+    #hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
+      text-align: center;
+      padding: 8rem 2rem 4rem;
+    }
+
+    .eyebrow {
+      font-size: 0.7rem;
+      letter-spacing: 0.45em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 2rem;
+    }
+
+    #hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.2rem, 7vw, 7rem);
+      font-weight: 300;
+      line-height: 1.05;
+      margin-bottom: 1.8rem;
+    }
+
+    #hero p {
+      color: var(--muted);
+      max-width: 42ch;
+      line-height: 1.8;
+      font-size: 0.95rem;
+      margin-bottom: 3.5rem;
+    }
+
+    .cta-row { display: flex; gap: 1.2rem; flex-wrap: wrap; justify-content: center; }
+
+    .btn {
+      display: inline-block;
+      padding: 0.88rem 2.4rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: all 0.25s;
+      cursor: pointer;
+      border: none;
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+    }
+
+    .btn-fill { background: var(--gold); color: #0c0c0c; }
+    .btn-fill:hover { background: #dfbf7c; }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* ─── SHARED SECTION ─── */
+    section { padding: 7rem 4rem; }
+
+    .section-label {
+      display: block;
+      font-size: 0.7rem;
+      letter-spacing: 0.45em;
+      text-transform: uppercase;
+      color: var(--gold);
+      text-align: center;
+      margin-bottom: 0.8rem;
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      font-weight: 300;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .rule {
+      width: 48px; height: 1px;
+      background: var(--gold);
+      margin: 0 auto 4.5rem;
+    }
+
+    /* ─── ABOUT ─── */
+    #about { background: var(--bg2); }
+
+    .about-inner {
+      max-width: 1060px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+
+    .portrait-frame { position: relative; }
+
+    .portrait-frame img {
+      width: 100%;
+      aspect-ratio: 4/5;
+      object-fit: cover;
+      object-position: top;
+      display: block;
+    }
+
+    .portrait-frame::after {
+      content: '';
+      position: absolute;
+      inset: -14px;
+      border: 1px solid rgba(200,169,110,0.3);
+      pointer-events: none;
+    }
+
+    .about-copy h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 300;
+      margin-bottom: 0.25rem;
+    }
+
+    .about-role {
+      font-size: 0.72rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 2rem;
+      display: block;
+    }
+
+    .about-copy p {
+      color: var(--muted);
+      line-height: 1.88;
+      margin-bottom: 1.4rem;
+      font-size: 0.94rem;
+    }
+
+    .ig-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--gold);
+      text-decoration: none;
+      font-size: 0.8rem;
+      letter-spacing: 0.06em;
+      transition: gap 0.25s;
+      margin-top: 0.5rem;
+    }
+    .ig-link:hover { gap: 0.85rem; }
+
+    /* ─── GALLERY ─── */
+    #gallery { background: var(--bg); }
+
+    .gallery-grid {
+      max-width: 1400px;
+      margin: 0 auto;
+      columns: 3 260px;
+      gap: 8px;
+    }
+
+    .gitem {
+      break-inside: avoid;
+      margin-bottom: 8px;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .gitem img {
+      width: 100%;
+      display: block;
+      background: var(--bg2);
+      transition: transform 0.55s ease;
+    }
+
+    .gitem:hover img { transform: scale(1.04); }
+
+    .gitem-overlay {
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,0.32);
+      opacity: 0;
+      transition: opacity 0.28s;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .gitem:hover .gitem-overlay { opacity: 1; }
+
+    .expand-icon {
+      width: 42px; height: 42px;
+      border: 1px solid rgba(255,255,255,0.7);
+      display: flex; align-items: center; justify-content: center;
+      color: white; font-size: 1.1rem;
+    }
+
+    /* ─── LIGHTBOX ─── */
+    #lightbox {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.96);
+      z-index: 999;
+      display: none;
+      align-items: center; justify-content: center;
+    }
+    #lightbox.open { display: flex; }
+
+    #lb-img {
+      max-width: 90vw;
+      max-height: 88vh;
+      object-fit: contain;
+      display: block;
+      user-select: none;
+    }
+
+    #lb-close {
+      position: absolute; top: 1.6rem; right: 2rem;
+      background: none; border: none;
+      color: var(--muted);
+      font-size: 2rem;
+      cursor: pointer;
+      line-height: 1;
+      transition: color 0.2s;
+    }
+    #lb-close:hover { color: var(--text); }
+
+    .lb-nav {
+      position: absolute;
+      top: 50%; transform: translateY(-50%);
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      width: 46px; height: 46px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 1rem;
+    }
+    .lb-nav:hover { border-color: var(--gold); color: var(--gold); }
+
+    #lb-prev { left: 2rem; }
+    #lb-next { right: 2rem; }
+
+    #lb-count {
+      position: absolute; bottom: 1.6rem;
+      left: 50%; transform: translateX(-50%);
+      font-size: 0.72rem; letter-spacing: 0.22em; color: var(--muted);
+    }
+
+    /* ─── CONTACT ─── */
+    #contact { background: var(--bg2); }
+
+    .contact-form { max-width: 580px; margin: 0 auto; }
+
+    .field { margin-bottom: 1.4rem; }
+
+    .field label {
+      display: block;
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .field input,
+    .field textarea {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.9rem 1rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 300;
+      outline: none;
+      transition: border-color 0.25s;
+      -webkit-appearance: none;
+    }
+    .field input:focus,
+    .field textarea:focus { border-color: var(--gold); }
+
+    .field textarea { min-height: 140px; resize: vertical; }
+
+    .form-note {
+      text-align: center;
+      font-size: 0.82rem;
+      color: var(--gold);
+      margin-top: 1rem;
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+    .form-note.visible { opacity: 1; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 4rem;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 1rem;
+    }
+
+    footer p { font-size: 0.78rem; color: var(--muted); }
+    footer a { color: var(--gold); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      nav { padding: 1.2rem 1.8rem; }
+      nav ul { display: none; }
+      section { padding: 5rem 1.8rem; }
+      .about-inner { grid-template-columns: 1fr; gap: 3rem; }
+      .portrait-frame { max-width: 320px; margin: 0 auto; }
+      footer { flex-direction: column; text-align: center; }
+    }
+
+    @media (max-width: 540px) {
+      .gallery-grid { columns: 1; }
+      #lb-prev { left: 0.4rem; }
+      #lb-next { right: 0.4rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="logo" href="#hero">Luz Hernandez Kroll</a>
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="https://www.instagram.com/luzhernandezkrollphotography/" target="_blank" rel="noopener">Instagram</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <p class="eyebrow">Wildlife Photography</p>
+  <h1>Luz Hernandez<br>Kroll</h1>
+  <p>Capturing the untamed beauty of wildlife through patience, passion, and a deep reverence for the natural world.</p>
+  <div class="cta-row">
+    <a class="btn btn-fill" href="#gallery">View Gallery</a>
+    <a class="btn btn-ghost" href="#contact">Get in Touch</a>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <span class="section-label">About</span>
+  <h2 class="section-title">The Photographer</h2>
+  <div class="rule"></div>
+  <div class="about-inner">
+    <div class="portrait-frame">
+      <!-- Save the attached photo as "profile.jpg" in this folder -->
+      <img src="profile.jpg" alt="Luz Hernandez Kroll">
+    </div>
+    <div class="about-copy">
+      <h3>Luz Hernandez Kroll</h3>
+      <span class="about-role">Wildlife &amp; Nature Photographer</span>
+      <p>
+        Based in the rugged wilderness of the American West, Luz Hernandez Kroll is a wildlife photographer whose work takes her into the heart of some of North America's most breathtaking landscapes — from the High Uintas of Utah to the alpine meadows of the Rocky Mountains.
+      </p>
+      <p>
+        With a Canon in hand and an intimate knowledge of wildlife behavior, Luz seeks out the quiet, unguarded moments that reveal the true character of each animal. Her photography is driven by a deep love for the natural world and a commitment to sharing its beauty with others.
+      </p>
+      <a class="ig-link"
+         href="https://www.instagram.com/luzhernandezkrollphotography/"
+         target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="1.5"
+             stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+        </svg>
+        @luzhernandezkrollphotography &rarr;
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <span class="section-label">Portfolio</span>
+  <h2 class="section-title">Gallery</h2>
+  <div class="rule"></div>
+  <div class="gallery-grid" id="galleryGrid"></div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <span class="section-label">Contact</span>
+  <h2 class="section-title">Get in Touch</h2>
+  <div class="rule"></div>
+  <form class="contact-form" id="contactForm" novalidate>
+    <div class="field">
+      <label for="name">Name</label>
+      <input id="name" type="text" name="name" placeholder="Your name" required>
+    </div>
+    <div class="field">
+      <label for="email">Email</label>
+      <input id="email" type="email" name="email" placeholder="you@email.com" required>
+    </div>
+    <div class="field">
+      <label for="msg">Message</label>
+      <textarea id="msg" name="message" placeholder="Your message…" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-fill" style="width:100%;padding:1rem 0;">Send Message</button>
+    <p class="form-note" id="formNote"></p>
+  </form>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>&copy; 2026 Luz Hernandez Kroll Photography. All rights reserved.</p>
+  <a href="https://www.instagram.com/luzhernandezkrollphotography/"
+     target="_blank" rel="noopener">Instagram</a>
+</footer>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
+  <button id="lb-close" aria-label="Close viewer">&times;</button>
+  <button class="lb-nav" id="lb-prev" aria-label="Previous photo">&#8592;</button>
+  <img id="lb-img" src="" alt="Wildlife photo">
+  <button class="lb-nav" id="lb-next" aria-label="Next photo">&#8594;</button>
+  <span id="lb-count"></span>
+</div>
+
+<script>
+  /* ── Gallery images ── */
+  const images = [
+    "0B9Z4766.jpg",
+    "0G9A0940.jpg",
+    "0G9A1888.jpg",
+    "0G9A2329.jpg",
+    "0G9A2553.jpg",
+    "0G9A2758.jpg",
+    "0G9A2903.jpg",
+    "0G9A3051%20crop.jpg",
+    "0G9A3051.jpg",
+    "0G9A3429.jpg",
+    "0G9A3648.jpg",
+    "0G9A4188%20crop.jpg",
+    "0G9A4228.jpg",
+    "0G9A5266.jpg",
+    "0G9A564.jpg",
+    "0G9A7019.jpg",
+    "0G9A8100.jpg",
+    "0G9A8111.jpg",
+    "0G9A8129.jpg",
+    "0G9A8380.jpg",
+    "0G9A8640.jpg",
+    "0G9A9629.jpg",
+    "0G9A9668.JPG",
+    "0G9A9932.jpg",
+    "IMG-3577.jpg",
+    "IMG_0149.jpg",
+    "IMG_0280.jpg",
+    "IMG_5818.jpg",
+    "IMG_6169.jpg",
+    "IMG_6547.jpg",
+    "IMG_6843.jpg",
+    "IMG_7906.jpg",
+    "IMG_8837.jpg",
+    "IMG_8847.jpg",
+    "IMG_8879.jpg",
+    "IMG_9471.jpg",
+    "IMG_9989.jpg",
+    "IMG_9996.jpg",
+    "OG9A3487.JPG"
+  ];
+
+  /* ── Build gallery ── */
+  const grid = document.getElementById('galleryGrid');
+
+  images.forEach((src, i) => {
+    const item = document.createElement('div');
+    item.className = 'gitem';
+    item.setAttribute('role', 'button');
+    item.setAttribute('tabindex', '0');
+    item.setAttribute('aria-label', `View photo ${i + 1}`);
+    item.innerHTML = `
+      <img src="${src}" alt="Wildlife photo ${i + 1}" loading="lazy">
+      <div class="gitem-overlay" aria-hidden="true">
+        <div class="expand-icon">&#x2B;</div>
+      </div>`;
+    item.addEventListener('click', () => openLightbox(i));
+    item.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') openLightbox(i); });
+    grid.appendChild(item);
+  });
+
+  /* ── Lightbox ── */
+  const lb      = document.getElementById('lightbox');
+  const lbImg   = document.getElementById('lb-img');
+  const lbCount = document.getElementById('lb-count');
+  let cur = 0;
+
+  function openLightbox(i) {
+    cur = i;
+    updateLb();
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    document.getElementById('lb-close').focus();
+  }
+
+  function closeLightbox() {
+    lb.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function navigate(d) {
+    cur = (cur + d + images.length) % images.length;
+    updateLb();
+  }
+
+  function updateLb() {
+    lbImg.src = images[cur];
+    lbCount.textContent = `${cur + 1} / ${images.length}`;
+  }
+
+  document.getElementById('lb-close').addEventListener('click', closeLightbox);
+  document.getElementById('lb-prev').addEventListener('click', () => navigate(-1));
+  document.getElementById('lb-next').addEventListener('click', () => navigate(1));
+  lb.addEventListener('click', e => { if (e.target === lb) closeLightbox(); });
+
+  document.addEventListener('keydown', e => {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape')     closeLightbox();
+    if (e.key === 'ArrowLeft')  navigate(-1);
+    if (e.key === 'ArrowRight') navigate(1);
+  });
+
+  /* ── Contact form ── */
+  document.getElementById('contactForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    const name    = document.getElementById('name').value.trim();
+    const email   = document.getElementById('email').value.trim();
+    const message = document.getElementById('msg').value.trim();
+    const note    = document.getElementById('formNote');
+    const btn     = e.target.querySelector('button[type="submit"]');
+
+    if (!name || !email || !message) return;
+
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+    note.className = 'form-note';
+    note.textContent = '';
+
+    try {
+      const res = await fetch('/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, message }),
+      });
+      const data = await res.json();
+
+      if (res.ok) {
+        note.textContent = 'Message sent — thank you for reaching out!';
+        note.style.color = 'var(--gold)';
+        note.classList.add('visible');
+        e.target.reset();
+      } else {
+        throw new Error(data.error || 'Something went wrong.');
+      }
+    } catch (err) {
+      note.textContent = err.message;
+      note.style.color = '#e07070';
+      note.classList.add('visible');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Send Message';
+      setTimeout(() => note.classList.remove('visible'), 6000);
+    }
+  });
+</script>
+</body>
+</html>
