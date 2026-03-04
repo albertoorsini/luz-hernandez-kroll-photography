@@ -596,8 +596,9 @@
   let touchStartX = 0, touchStartY = 0;
 
   lb.addEventListener('touchstart', e => {
-    touchStartX = e.touches[0].clientX;
-    touchStartY = e.touches[0].clientY;
+    const t = e.touches[0] || e.changedTouches[0];
+    touchStartX = t.clientX;
+    touchStartY = t.clientY;
   }, { passive: true });
 
   lb.addEventListener('touchend', e => {
