@@ -16,7 +16,7 @@
       --bg:     #0c0c0c;
       --bg2:    #161616;
       --text:   #f0ece4;
-      --muted:  #7a7670;
+      --muted:  #908c89;
       --gold:   #c8a96e;
       --border: #262626;
     }
@@ -52,7 +52,7 @@
     nav ul { list-style: none; display: flex; gap: 2.5rem; }
 
     nav a {
-      font-size: 0.72rem;
+      font-size: 0.75rem;
       letter-spacing: 0.18em;
       text-transform: uppercase;
       color: var(--muted);
@@ -71,7 +71,7 @@
     }
 
     .eyebrow {
-      font-size: 0.7rem;
+      font-size: 0.75rem;
       letter-spacing: 0.45em;
       text-transform: uppercase;
       color: var(--gold);
@@ -99,7 +99,7 @@
     .btn {
       display: inline-block;
       padding: 0.88rem 2.4rem;
-      font-size: 0.72rem;
+      font-size: 0.75rem;
       letter-spacing: 0.2em;
       text-transform: uppercase;
       text-decoration: none;
@@ -125,7 +125,7 @@
 
     .section-label {
       display: block;
-      font-size: 0.7rem;
+      font-size: 0.75rem;
       letter-spacing: 0.45em;
       text-transform: uppercase;
       color: var(--gold);
@@ -185,7 +185,7 @@
     }
 
     .about-role {
-      font-size: 0.72rem;
+      font-size: 0.75rem;
       letter-spacing: 0.3em;
       text-transform: uppercase;
       color: var(--gold);
@@ -305,7 +305,7 @@
     #lb-count {
       position: absolute; bottom: 1.6rem;
       left: 50%; transform: translateX(-50%);
-      font-size: 0.72rem; letter-spacing: 0.22em; color: var(--muted);
+      font-size: 0.75rem; letter-spacing: 0.22em; color: var(--muted);
     }
 
     /* ─── CONTACT ─── */
@@ -317,7 +317,7 @@
 
     .field label {
       display: block;
-      font-size: 0.7rem;
+      font-size: 0.75rem;
       letter-spacing: 0.25em;
       text-transform: uppercase;
       color: var(--muted);
@@ -414,7 +414,7 @@
   <div class="about-inner">
     <div class="portrait-frame">
       <!-- Save the attached photo as "profile.jpg" in this folder -->
-      <img src="profile.jpg" alt="Luz Hernandez Kroll">
+      <img src="profile.jpg" alt="Luz Hernandez Kroll" loading="lazy" decoding="async">
     </div>
     <div class="about-copy">
       <h3>Luz Hernandez Kroll</h3>
@@ -542,7 +542,7 @@
     item.setAttribute('tabindex', '0');
     item.setAttribute('aria-label', `View photo ${i + 1}`);
     item.innerHTML = `
-      <img src="${src}" alt="Wildlife photo ${i + 1}" loading="lazy">
+      <img src="${src}" alt="Wildlife photo ${i + 1}" loading="lazy" decoding="async">
       <div class="gitem-overlay" aria-hidden="true">
         <div class="expand-icon">&#x2B;</div>
       </div>`;
