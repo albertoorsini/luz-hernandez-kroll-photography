@@ -1,25 +1,17 @@
-require('dotenv').config();
+require('dotenv').config({ path: require('path').join(__dirname, '.env') });
 const express = require('express');
-const nodemailer = require('nodemailer');
+const { Resend } = require('resend');
 const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-const SMTP_USER = process.env.SMTP_USER;
-const SMTP_PASS = process.env.SMTP_PASS;
+const resend = new Resend(process.env.RESEND_API_KEY);
 
-if (!SMTP_USER || !SMTP_PASS) {
-  console.warn('\n  ⚠  No SMTP credentials found — contact form will not send emails.');
-  console.warn('     Add SMTP_USER and SMTP_PASS to your .env file.\n');
+if (!process.env.RESEND_API_KEY) {
+  console.warn('\n  ⚠  No RESEND_API_KEY found — contact form will not send emails.');
+  console.warn('     Add RESEND_API_KEY to your .env file.\n');
 }
-
-const transporter = nodemailer.createTransport({
-  host: 'smtp-mail.outlook.com',
-  port: 587,
-  secure: false,
-  auth: { user: SMTP_USER, pass: SMTP_PASS },
-});
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname)));
@@ -32,14 +24,14 @@ app.post('/contact', async (req, res) => {
     return res.status(400).json({ error: 'All fields are required.' });
   }
 
-  if (!SMTP_USER || !SMTP_PASS) {
+  if (!process.env.RESEND_API_KEY) {
     return res.status(500).json({ error: 'Email is not configured on this server.' });
   }
 
   try {
-    await transporter.sendMail({
-      from: `"Luz Hernandez Kroll Photography" <${SMTP_USER}>`,
-      replyTo: `"${name}" <${email}>`,
+    await resend.emails.send({
+      from: 'contact@luzhernandezkroll.com',
+      replyTo: `${name} <${email}>`,
       to: 'high-uintas@hotmail.com',
       subject: `Photography Inquiry from ${name}`,
       text: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
