@@ -1,9 +1,25 @@
+require('dotenv').config();
 const express = require('express');
 const nodemailer = require('nodemailer');
 const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+const SMTP_USER = process.env.SMTP_USER;
+const SMTP_PASS = process.env.SMTP_PASS;
+
+if (!SMTP_USER || !SMTP_PASS) {
+  console.warn('\n  ⚠  No SMTP credentials found — contact form will not send emails.');
+  console.warn('     Add SMTP_USER and SMTP_PASS to your .env file.\n');
+}
+
+const transporter = nodemailer.createTransport({
+  host: 'smtp-mail.outlook.com',
+  port: 587,
+  secure: false,
+  auth: { user: SMTP_USER, pass: SMTP_PASS },
+});
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname)));
@@ -16,37 +32,14 @@ app.post('/contact', async (req, res) => {
     return res.status(400).json({ error: 'All fields are required.' });
   }
 
-  // Configure your SMTP transport via environment variables:
-  //   SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS
-  // Or leave unconfigured to use Ethereal (test/preview only — no real email sent).
-  let transporter;
-
-  if (process.env.SMTP_HOST) {
-    transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: parseInt(process.env.SMTP_PORT || '587'),
-      secure: process.env.SMTP_SECURE === 'true',
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
-      },
-    });
-  } else {
-    // Fallback: Ethereal test account (logs preview URL to console)
-    const testAccount = await nodemailer.createTestAccount();
-    transporter = nodemailer.createTransport({
-      host: 'smtp.ethereal.email',
-      port: 587,
-      auth: {
-        user: testAccount.user,
-        pass: testAccount.pass,
-      },
-    });
+  if (!SMTP_USER || !SMTP_PASS) {
+    return res.status(500).json({ error: 'Email is not configured on this server.' });
   }
 
   try {
-    const info = await transporter.sendMail({
-      from: `"${name}" <${email}>`,
+    await transporter.sendMail({
+      from: `"Luz Hernandez Kroll Photography" <${SMTP_USER}>`,
+      replyTo: `"${name}" <${email}>`,
       to: 'high-uintas@hotmail.com',
       subject: `Photography Inquiry from ${name}`,
       text: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
@@ -56,13 +49,9 @@ app.post('/contact', async (req, res) => {
              <p>${message.replace(/\n/g, '<br>')}</p>`,
     });
 
-    if (!process.env.SMTP_HOST) {
-      console.log('Test email preview URL:', nodemailer.getTestMessageUrl(info));
-    }
-
     res.json({ success: true });
   } catch (err) {
-    console.error('Email error:', err);
+    console.error('Email error:', err.message);
     res.status(500).json({ error: 'Failed to send message. Please try again.' });
   }
 });
