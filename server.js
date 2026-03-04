@@ -6,9 +6,9 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
-if (!process.env.RESEND_API_KEY) {
+if (!resend) {
   console.warn('\n  ⚠  No RESEND_API_KEY found — contact form will not send emails.');
   console.warn('     Add RESEND_API_KEY to your .env file.\n');
 }
@@ -24,7 +24,7 @@ app.post('/contact', async (req, res) => {
     return res.status(400).json({ error: 'All fields are required.' });
   }
 
-  if (!process.env.RESEND_API_KEY) {
+  if (!resend) {
     return res.status(500).json({ error: 'Email is not configured on this server.' });
   }
 
