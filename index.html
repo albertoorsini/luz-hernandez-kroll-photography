@@ -262,16 +262,51 @@
       background: rgba(0,0,0,0.96);
       z-index: 999;
       display: none;
-      align-items: center; justify-content: center;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 4rem 5rem 2rem;
+      overflow-y: auto;
+      gap: 1.4rem;
     }
     #lightbox.open { display: flex; }
 
     #lb-img {
       max-width: 90vw;
-      max-height: 88vh;
+      max-height: 62vh;
       object-fit: contain;
       display: block;
       user-select: none;
+      flex-shrink: 0;
+    }
+
+    #lb-caption {
+      text-align: center;
+      max-width: 58ch;
+      flex-shrink: 0;
+    }
+
+    #lb-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.45rem;
+      font-weight: 300;
+      color: var(--text);
+      margin-bottom: 0.3rem;
+    }
+
+    #lb-location {
+      display: block;
+      font-size: 0.72rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.9rem;
+    }
+
+    #lb-desc {
+      font-size: 0.84rem;
+      color: var(--muted);
+      line-height: 1.75;
     }
 
     #lb-close {
@@ -287,7 +322,7 @@
 
     .lb-nav {
       position: absolute;
-      top: 50%; transform: translateY(-50%);
+      top: calc(50% - 3rem); transform: translateY(-50%);
       background: none;
       border: 1px solid var(--border);
       color: var(--muted);
@@ -303,7 +338,7 @@
     #lb-next { right: 2rem; }
 
     #lb-count {
-      position: absolute; bottom: 1.6rem;
+      position: absolute; top: 1.7rem;
       left: 50%; transform: translateX(-50%);
       font-size: 0.75rem; letter-spacing: 0.22em; color: var(--muted);
     }
@@ -483,10 +518,15 @@
 <!-- LIGHTBOX -->
 <div id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
   <button id="lb-close" aria-label="Close viewer">&times;</button>
+  <span id="lb-count"></span>
   <button class="lb-nav" id="lb-prev" aria-label="Previous photo">&#8592;</button>
   <img id="lb-img" src="" alt="Wildlife photo">
   <button class="lb-nav" id="lb-next" aria-label="Next photo">&#8594;</button>
-  <span id="lb-count"></span>
+  <div id="lb-caption">
+    <p id="lb-title"></p>
+    <span id="lb-location"></span>
+    <p id="lb-desc"></p>
+  </div>
 </div>
 
 <script>
@@ -553,6 +593,49 @@
     grid.appendChild(item);
   });
 
+  /* ── Photo metadata ── */
+  const meta = [
+    { title: "Quiet Intensity",          location: "California",                    desc: "A moment of quiet intensity as a wild Bobcat pauses and fixes its gaze on the world beyond the frame. In the stillness of the early morning, every movement matters—every sound, every scent carried by the wind. Encounters like this are fleeting reminders of the quiet power and mystery that roam the wild places of California." },
+    { title: "Spring's Gentle Beginning",location: "Utah",                          desc: "Two delicate Fawns pause beside a cluster of leafy shrubs, their wide ears alert to the quiet world around them. Their spotted coats and gentle expressions capture the tender innocence of early life in the wild." },
+    { title: "Desert Sentinel",          location: "Yellowstone National Park",     desc: "A watchful Pronghorn pauses among the sagebrush, its posture calm yet alert. Built for speed and survival, pronghorns have roamed the open landscapes of the American West for thousands of years, always ready to vanish across the plains in a heartbeat." },
+    { title: "Wild Curiosity",           location: "Antelope Island, Utah",         desc: "A young Coyote pauses in the tall grass, studying the world with quiet curiosity. Moments like this reveal the intelligence and adaptability of one of North America's most resilient wild canids." },
+    { title: "Amber Eyes",               location: "Utah",                          desc: "Hidden in the shadows of the forest floor, a Red Fox rests while keeping a watchful gaze on its surroundings. The golden light in its eyes reflects both caution and calm—an intimate glimpse into the quiet life of a master of stealth." },
+    { title: "Spring Awakening",         location: "Yellowstone National Park",     desc: "Beryl, a powerful Grizzly Bear, moves quietly through the melting snow of early spring. After months of winter dormancy, these first days above ground are a time of hunger, renewal, and the slow return of life to the mountains." },
+    { title: "Siblings Bonds",           location: "Utah",                          desc: "Two playful Red Fox kits share a quiet moment of curiosity and affection. In the safety of their den site, these early days are filled with discovery, play, and the lessons that will prepare them for life in the wild." },
+    { title: "Quiet Observer",           location: "Utah",                          desc: "Perched lightly on a morning sun-warmed branch, a delicate Dusky Flycatcher pauses between flights. These subtle woodland birds quietly hunt insects from low perches, bringing life and motion to the mountain forests of the American West." },
+    { title: "A Quiet Meal",             location: "Utah",                          desc: "A curious Ground Squirrel pauses to enjoy a delicate wildflower. In the peaceful stillness of the meadow, even the smallest creatures play an important role in the balance of the ecosystem." },
+    { title: "Gentle Graze",             location: "Utah",                          desc: "A young Mule Deer lowers its head to graze among the soft grasses. These quiet moments reveal the peaceful rhythms of wildlife moving through their natural habitat." },
+    { title: "A Curious Pause",          location: "Utah",                          desc: "A young Red Fox pauses mid-scratch, briefly distracted by the world around it. Captured in a moment that almost resembles a thoughtful sit, this playful gesture reveals the charm and personality of one of nature's most captivating creatures." },
+    { title: "Spirit of the Plains",     location: "Utah's West Desert",            desc: "Bathed in the warm glow of evening light, Dime, a Wild Mustang of the Onaqui Mountains, walks across the open landscape. These free-roaming horses embody the untamed spirit of the American West." },
+    { title: "Winter Watcher",           location: "Utah",                          desc: "A delicate Mountain Chickadee perches lightly on a branch, its soft plumage fluffed against the cool air. Even in the quiet forests of winter, these tiny birds remain lively and resilient." },
+    { title: "Hidden in the Meadow",     location: "California",                    desc: "A stealthy Bobcat rests low in the grass, perfectly blended with its surroundings. In the wild, patience and camouflage are powerful tools for this elusive feline predator." },
+    { title: "Forest Guardian",          location: "Utah",                          desc: "Perched high among the branches, a Red-tailed Hawk surveys the forest below with quiet authority. From these watchful vantage points, raptors rule the skies and the landscape beneath them." },
+    { title: "Silent Slumber",           location: "Utah",                          desc: "Tucked quietly against the bark of an old tree, a resting Western Screech-Owl blends perfectly into its surroundings. During the daylight hours, these small nocturnal hunters remain hidden, conserving energy until the forest awakens again at dusk." },
+    { title: "Golden Gaze",              location: "Grand Teton National Park",     desc: "Perched silently among the branches, a majestic Great Gray Owl fixes its brilliant yellow eyes on the forest floor below. With extraordinary hearing and patience, this ghost of the northern woods hunts with remarkable precision." },
+    { title: "Woodland Forager",         location: "Utah",                          desc: "An American Red Squirrel pauses on an aspen branch to enjoy a freshly gathered treat. Energetic and resourceful, these small woodland foragers spend their days collecting and caching food throughout the forest." },
+    { title: "Playful Moment",           location: "Utah",                          desc: "A young Red Fox pauses in the tall grass, its playful expression revealing a brief moment of curiosity. These intelligent animals are constantly alert, balancing caution with youthful exploration." },
+    { title: "Quiet Innocence",          location: "Utah",                          desc: "A gentle Mule Deer gazes calmly into the distance, its large ears tuned to every sound in the surrounding forest. Encounters like this reveal the peaceful presence of wildlife sharing the landscape." },
+    { title: "Wild Grace",               location: "California",                    desc: "A relaxed Bobcat pauses after grooming, her sleek coat patterned perfectly for camouflage in the grasslands. Even in moments of calm, these solitary hunters remain masters of their domain." },
+    { title: "Quiet Pause",              location: "Utah",                          desc: "Perched atop a worn tree stump, a curious Gray Squirrel pauses between bites. In the forest, even the smallest moments reveal the busy rhythms of wildlife life unfolding all around us." },
+    { title: "A Mother's Watch",         location: "Mt. Timpanogos, Utah",          desc: "Two resilient Mountain Goats rest comfortably on the alpine slope, a watchful mother beside her young. High above the rugged terrain, moments of calm like this reveal the quiet bond of the wild." },
+    { title: "Winter Watch",             location: "Grand Teton National Park",     desc: "Against a quiet blanket of snow, a vigilant Coyote pauses to observe its surroundings. Perfectly adapted to harsh winters, coyotes continue their search for food with patience and remarkable resilience." },
+    { title: "Autumn Monarch",           location: "Utah",                          desc: "A magnificent Moose stands tall among the trees, its massive antlers a symbol of strength and maturity. In the quiet of the mountain landscape, this giant of the forest moves with surprising grace." },
+    { title: "First Steps",              location: "Utah",                          desc: "A young Mule Deer fawn stands carefully among the grasses, its spotted coat offering natural camouflage. In these early weeks of life, stillness and alertness are key to survival." },
+    { title: "Quiet Authority",          location: "California",                    desc: "Seated calmly in the meadow, a Bobcat surveys its territory with steady confidence. Elusive and solitary, these stealthy predators move silently through the landscape, rarely revealing themselves." },
+    { title: "Crowned Giant",            location: "Utah",                          desc: "A magnificent bull Moose displays his impressive antlers, a symbol of strength and dominance during the autumn season. Despite their massive size, moose move quietly through forests and wetlands." },
+    { title: "Golden Song",              location: "Utah",                          desc: "Perched lightly on a slender branch, a vibrant Bullock's Oriole adds a flash of brilliant color to the landscape. These striking birds bring life and music to spring and summer skies." },
+    { title: "Evening Light",            location: "Utah",                          desc: "Bathed in the warm glow of fading daylight, a Red Fox sits quietly at the forest's edge. In the stillness of dusk, the fox pauses before beginning another night of exploration." },
+    { title: "Plains Runner",            location: "Yellowstone National Park",     desc: "A graceful Pronghorn gazes across the open landscape. Known as the fastest land animal in North America, pronghorns are perfectly built for life on the wide western plains." },
+    { title: "Watchful Perch",           location: "Utah",                          desc: "Arthur, a male American Kestrel who has made our backyard his home alongside his mate, Margarita. Each year they return to our property to raise their young, a small wild family we feel privileged to observe. As the smallest falcon of North America, the American Kestrel is both fierce and graceful, often seen perched high while scanning the landscape for movement below." },
+    { title: "Silent Passage",           location: "Yellowstone National Park",     desc: "Moving quietly across the meadow, a cautious Coyote steps through the early morning frost. With keen senses and adaptability, coyotes thrive in landscapes both wild and changing." },
+    { title: "Aquamarine Gaze",          location: "Utah",                          desc: "The striking aquamarine eye of a Double-crested Cormorant glows against dark feathers, a quiet moment of wild beauty captured in perfect light." },
+    { title: "Young Explorer",           location: "Utah",                          desc: "A curious young Red Fox steps carefully through the undergrowth, discovering the world one scent and sound at a time. Early days are filled with learning as young foxes begin to explore beyond their den." },
+    { title: "Silent Presence",          location: "California",                    desc: "Half hidden among the grasses, a watchful Bobcat sits perfectly still. In the wild, patience and camouflage allow this elusive feline to move through the landscape almost unseen." },
+    { title: "Tiny Treasure",            location: "Utah",                          desc: "Holding a small seed between its tiny paws, a busy Chipmunk pauses for a quick meal. These energetic little gatherers spend their days collecting food and preparing for the colder seasons ahead." },
+    { title: "A Mother's Care",          location: "Utah",                          desc: "A gentle Mule Deer doe tends lovingly to her fawn, a quiet moment that reflects the deep bond between mother and young in the wild." },
+    { title: "Scarlett Signal",          location: "Utah",                          desc: "Perched atop a slender branch, a bold Red-winged Blackbird displays the bright red patches on its wings. Their distinctive calls and flashes of color are a familiar sign of wetlands and open marshlands in spring." },
+  ];
+
   /* ── Lightbox ── */
   const lb      = document.getElementById('lightbox');
   const lbImg   = document.getElementById('lb-img');
@@ -579,8 +662,11 @@
 
   function updateLb() {
     lbImg.src = encodeURI(images[cur]);
-    lbImg.alt = images[cur].replace(/^.*\/\d+-\s*/, '').replace(/\.[^.]+$/, '');
+    lbImg.alt = meta[cur].title;
     lbCount.textContent = `${cur + 1} / ${images.length}`;
+    document.getElementById('lb-title').textContent    = meta[cur].title;
+    document.getElementById('lb-location').textContent = meta[cur].location;
+    document.getElementById('lb-desc').textContent     = meta[cur].desc;
   }
 
   document.getElementById('lb-close').addEventListener('click', closeLightbox);
