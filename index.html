@@ -256,6 +256,7 @@
       color: white; font-size: 1.1rem;
     }
 
+
     /* ─── LIGHTBOX ─── */
     #lightbox {
       position: fixed; inset: 0;
@@ -573,26 +574,6 @@
     "Image Order/039-Red-winged Blackbird, Utah.jpg"
   ];
 
-  /* ── Build gallery ── */
-  const grid = document.getElementById('galleryGrid');
-
-  images.forEach((src, i) => {
-    const label = src.replace(/^.*\/\d+-\s*/, '').replace(/\.[^.]+$/, '');
-    const item = document.createElement('div');
-    item.className = 'gitem';
-    item.setAttribute('role', 'button');
-    item.setAttribute('tabindex', '0');
-    item.setAttribute('aria-label', `View photo: ${label}`);
-    item.innerHTML = `
-      <img src="${encodeURI(src)}" alt="${label}" loading="lazy" decoding="async">
-      <div class="gitem-overlay" aria-hidden="true">
-        <div class="expand-icon">&#x2B;</div>
-      </div>`;
-    item.addEventListener('click', () => openLightbox(i));
-    item.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') openLightbox(i); });
-    grid.appendChild(item);
-  });
-
   /* ── Photo metadata ── */
   const meta = [
     { title: "Quiet Intensity",          location: "California",                    desc: "A moment of quiet intensity as a wild Bobcat pauses and fixes its gaze on the world beyond the frame. In the stillness of the early morning, every movement matters—every sound, every scent carried by the wind. Encounters like this are fleeting reminders of the quiet power and mystery that roam the wild places of California." },
@@ -635,6 +616,26 @@
     { title: "A Mother's Care",          location: "Utah",                          desc: "A gentle Mule Deer doe tends lovingly to her fawn, a quiet moment that reflects the deep bond between mother and young in the wild." },
     { title: "Scarlett Signal",          location: "Utah",                          desc: "Perched atop a slender branch, a bold Red-winged Blackbird displays the bright red patches on its wings. Their distinctive calls and flashes of color are a familiar sign of wetlands and open marshlands in spring." },
   ];
+
+  /* ── Build gallery ── */
+  const grid = document.getElementById('galleryGrid');
+
+  images.forEach((src, i) => {
+    const label = src.replace(/^.*\/\d+-\s*/, '').replace(/\.[^.]+$/, '');
+    const item = document.createElement('div');
+    item.className = 'gitem';
+    item.setAttribute('role', 'button');
+    item.setAttribute('tabindex', '0');
+    item.setAttribute('aria-label', `View photo: ${label}`);
+    item.innerHTML = `
+      <img src="${encodeURI(src)}" alt="${label}" loading="lazy" decoding="async">
+      <div class="gitem-overlay" aria-hidden="true">
+        <div class="expand-icon">&#x2B;</div>
+      </div>`;
+    item.addEventListener('click', () => openLightbox(i));
+    item.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') openLightbox(i); });
+    grid.appendChild(item);
+  });
 
   /* ── Lightbox ── */
   const lb      = document.getElementById('lightbox');
