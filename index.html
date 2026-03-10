@@ -150,6 +150,80 @@
     /* ─── ABOUT ─── */
     #about { background: var(--bg2); }
 
+    /* ─── PUBLICATIONS ─── */
+    #publications { background: var(--bg); }
+
+    .pub-list {
+      max-width: 780px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 3.5rem;
+    }
+
+    .pub-entry {}
+
+    .pub-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-weight: 300;
+      color: var(--text);
+      margin-bottom: 0.2rem;
+    }
+
+    .pub-issue {
+      display: block;
+      font-size: 0.72rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+
+    .pub-features {
+      list-style: none;
+      margin-bottom: 1rem;
+    }
+
+    .pub-features li {
+      font-size: 0.88rem;
+      color: var(--muted);
+      padding: 0.18rem 0;
+      padding-left: 1rem;
+      position: relative;
+    }
+
+    .pub-features li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--gold);
+    }
+
+    .pub-desc {
+      font-size: 0.92rem;
+      color: var(--muted);
+      line-height: 1.85;
+    }
+
+    .pub-blockquote {
+      margin: 1.2rem 0 0;
+      padding: 1rem 1.5rem;
+      border-left: 2px solid var(--gold);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      font-style: italic;
+      font-weight: 300;
+      color: var(--text);
+      line-height: 1.75;
+    }
+
+    .pub-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0;
+    }
+
     .about-inner {
       max-width: 1060px;
       margin: 0 auto;
@@ -427,6 +501,7 @@
   <ul>
     <li><a href="#gallery">Gallery</a></li>
     <li><a href="#about">About</a></li>
+    <li><a href="#publications">Press</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="https://www.instagram.com/luzhernandezkrollphotography/" target="_blank" rel="noopener">Instagram</a></li>
   </ul>
@@ -492,6 +567,68 @@
         @luzhernandezkrollphotography &rarr;
       </a>
     </div>
+  </div>
+</section>
+
+<!-- PUBLICATIONS -->
+<section id="publications">
+  <span class="section-label">Recognition</span>
+  <h2 class="section-title">Publications &amp; Editorial Features</h2>
+  <div class="rule"></div>
+  <div class="pub-list">
+
+    <div class="pub-entry">
+      <h3 class="pub-title">Everything Fox Magazine</h3>
+      <span class="pub-issue">Issue 5, 2023</span>
+      <ul class="pub-features">
+        <li>Featured Photographer</li>
+        <li>Cover Photograph</li>
+        <li>18-Page Editorial Feature &amp; Biography</li>
+        <li>"Red, Wild, and Free — Utah's Adaptable Survivor"</li>
+      </ul>
+      <p class="pub-desc">A special issue dedicated to my fox photography, featuring the cover image presented in my gallery and an extensive editorial feature including my biography. The 18-page spread showcased multiple photographs documenting the lives, behavior, and adaptability of wild red foxes in Utah.</p>
+    </div>
+
+    <hr class="pub-divider">
+
+    <div class="pub-entry">
+      <h3 class="pub-title">Everything Fox Magazine</h3>
+      <span class="pub-issue">Spring 2024</span>
+      <ul class="pub-features">
+        <li>Featured Photographers Randy Kroll and Luz Hernandez Kroll</li>
+        <li>Everything Wild Spotlight: Roaming Wonders</li>
+        <li>"Exploring Utah's Majestic Wild Horses"</li>
+      </ul>
+      <p class="pub-desc">This article highlighted the beauty and spirit of the wild horses of Utah's West Desert through the combined photography of Randy Kroll and Luz Hernandez Kroll. The feature included our biographies along with a collection of photographs capturing the power, grace, and freedom of these iconic animals in their natural landscape.</p>
+    </div>
+
+    <hr class="pub-divider">
+
+    <div class="pub-entry">
+      <h3 class="pub-title">Everything Fox Magazine</h3>
+      <span class="pub-issue">Issue 6, 2025</span>
+      <ul class="pub-features">
+        <li>Featured Photographer</li>
+        <li>Everything Wild Spotlight: Wildlife Wonders</li>
+        <li>"Discover the Rocky Mountain Goats of Mt. Timpanogos"</li>
+      </ul>
+      <p class="pub-desc">An article and photo essay documenting my experience photographing Rocky Mountain goats in the rugged terrain of Mt. Timpanogos.</p>
+      <blockquote class="pub-blockquote">"Witnessing mountain goats in their natural habitat is a humbling experience that serves as a reminder of the awe-inspiring beauty and power of nature. Their ability to thrive in some of the most inhospitable landscapes on Earth is a testament to their remarkable resilience and adaptability." — Luz</blockquote>
+    </div>
+
+    <hr class="pub-divider">
+
+    <div class="pub-entry">
+      <h3 class="pub-title">The Universe of Colour Photography</h3>
+      <span class="pub-issue">Online International Photography Magazine — Issue 1, Second Year, Autumn 2022</span>
+      <ul class="pub-features">
+        <li>Featured Photographers Randy Kroll and Luz Hernandez Kroll</li>
+        <li>Cover Photograph — Randy Kroll</li>
+        <li>39-Page Editorial Feature, Biographies &amp; Double Interview</li>
+      </ul>
+      <p class="pub-desc">Both Randy Kroll and Luz Hernandez Kroll were featured in an extensive 39-page editorial spread in this international photography magazine. The feature included our biographies, a double interview discussing our photographic journeys and creative philosophies, and a curated collection of wildlife and landscape photographs from both photographers. The cover image for the issue was a portrait of Luz captured by Randy Kroll.</p>
+    </div>
+
   </div>
 </section>
 
