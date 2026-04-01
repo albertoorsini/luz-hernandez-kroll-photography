@@ -768,9 +768,12 @@
   const grid = document.getElementById('galleryGrid');
 
   function fitItem(item) {
+    const img = item.querySelector('img');
     const rowGap = 8;
     const rowSize = 4;
-    const span = Math.ceil((item.getBoundingClientRect().height + rowGap) / (rowSize + rowGap));
+    const width = item.getBoundingClientRect().width;
+    const naturalHeight = (img.naturalHeight / img.naturalWidth) * width;
+    const span = Math.ceil((naturalHeight + rowGap) / (rowSize + rowGap));
     item.style.gridRowEnd = 'span ' + span;
   }
 
