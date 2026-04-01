@@ -295,11 +295,11 @@
       margin: 0 auto;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
+      grid-auto-rows: 4px;
       gap: 8px;
     }
 
     .gitem {
-      margin-bottom: 0;
       position: relative;
       overflow: hidden;
       cursor: pointer;
@@ -767,6 +767,17 @@
   /* ── Build gallery ── */
   const grid = document.getElementById('galleryGrid');
 
+  function fitItem(item) {
+    const rowGap = 8;
+    const rowSize = 4;
+    const span = Math.ceil((item.getBoundingClientRect().height + rowGap) / (rowSize + rowGap));
+    item.style.gridRowEnd = 'span ' + span;
+  }
+
+  function fitAll() {
+    document.querySelectorAll('.gitem').forEach(fitItem);
+  }
+
   images.forEach((src, i) => {
     const label = src.replace(/^.*\/\d+-\s*/, '').replace(/\.[^.]+$/, '');
     const item = document.createElement('div');
@@ -781,8 +792,11 @@
       </div>`;
     item.addEventListener('click', () => openLightbox(i));
     item.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') openLightbox(i); });
+    item.querySelector('img').addEventListener('load', () => fitItem(item));
     grid.appendChild(item);
   });
+
+  window.addEventListener('resize', fitAll);
 
   /* ── Lightbox ── */
   const lb      = document.getElementById('lightbox');
