@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editor — Luz Hernandez Kroll Photography</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:     #0d0d0d;
+      --bg2:    #131313;
+      --bg3:    #1a1a1a;
+      --gold:   #c9a96e;
+      --gold2:  #a8833e;
+      --text:   #e8e0d5;
+      --muted:  #888;
+      --border: #2a2a2a;
+      --red:    #c0392b;
+      --radius: 6px;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 14px;
+      min-height: 100vh;
+    }
+
+    /* ── Auth screens ── */
+    .auth-wrap {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .auth-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2.5rem 2rem;
+      width: 100%;
+      max-width: 420px;
+    }
+
+    .auth-card h1 {
+      font-family: Georgia, serif;
+      font-size: 1.4rem;
+      font-weight: 400;
+      color: var(--gold);
+      margin-bottom: 0.4rem;
+    }
+
+    .auth-card p {
+      color: var(--muted);
+      font-size: 0.82rem;
+      margin-bottom: 1.8rem;
+      line-height: 1.6;
+    }
+
+    .field { margin-bottom: 1rem; }
+
+    .field label {
+      display: block;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.4rem;
+    }
+
+    .field input, .field textarea, .field select {
+      width: 100%;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-size: 0.9rem;
+      padding: 0.6rem 0.75rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .field input:focus, .field textarea:focus {
+      border-color: var(--gold);
+    }
+
+    .field textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.6rem 1.2rem;
+      border-radius: var(--radius);
+      border: none;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: opacity 0.15s, background 0.15s;
+    }
+
+    .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .btn-primary  { background: var(--gold); color: #111; }
+    .btn-primary:hover:not(:disabled) { background: var(--gold2); }
+    .btn-ghost    { background: transparent; border: 1px solid var(--border); color: var(--muted); }
+    .btn-ghost:hover:not(:disabled) { border-color: var(--gold); color: var(--text); }
+    .btn-danger   { background: transparent; border: 1px solid #3a1a1a; color: #c0392b; }
+    .btn-danger:hover:not(:disabled) { background: #1e0a0a; border-color: var(--red); }
+    .btn-full { width: 100%; justify-content: center; margin-top: 0.5rem; }
+
+    .error-msg {
+      background: #1e0a0a;
+      border: 1px solid #3a1a1a;
+      color: #e07070;
+      border-radius: var(--radius);
+      padding: 0.6rem 0.75rem;
+      font-size: 0.82rem;
+      margin-top: 0.75rem;
+      display: none;
+    }
+
+    .error-msg.show { display: block; }
+
+    /* ── App shell ── */
+    #app { display: none; flex-direction: column; min-height: 100vh; }
+    #app.visible { display: flex; }
+
+    .topbar {
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+      padding: 0 1.5rem;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .topbar-title {
+      font-family: Georgia, serif;
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--gold);
+    }
+
+    .topbar-actions { display: flex; gap: 0.5rem; align-items: center; }
+
+    .tabs {
+      display: flex;
+      gap: 0;
+      border-bottom: 1px solid var(--border);
+      padding: 0 1.5rem;
+      background: var(--bg2);
+    }
+
+    .tab-btn {
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 0.82rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 0.85rem 1rem;
+      margin-bottom: -1px;
+      transition: color 0.15s, border-color 0.15s;
+    }
+
+    .tab-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+    .tab-btn:hover:not(.active) { color: var(--text); }
+
+    .tab-panel { display: none; padding: 1.5rem; flex: 1; }
+    .tab-panel.active { display: block; }
+
+    /* ── Gallery list ── */
+    .gallery-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.2rem;
+    }
+
+    .gallery-toolbar p { color: var(--muted); font-size: 0.8rem; }
+
+    #photo-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+
+    .photo-row {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      display: grid;
+      grid-template-columns: 32px 80px 1fr auto;
+      gap: 0.75rem;
+      align-items: start;
+      padding: 0.75rem;
+      transition: border-color 0.15s, background 0.15s;
+    }
+
+    .photo-row.drag-over {
+      border-color: var(--gold);
+      background: #1a1600;
+    }
+
+    .photo-row.dragging { opacity: 0.4; }
+
+    .drag-handle {
+      color: var(--muted);
+      cursor: grab;
+      font-size: 1.1rem;
+      user-select: none;
+      padding-top: 2px;
+      line-height: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      align-items: center;
+      padding-top: 6px;
+    }
+
+    .drag-handle span {
+      display: block;
+      width: 16px;
+      height: 2px;
+      background: var(--muted);
+      border-radius: 2px;
+    }
+
+    .drag-handle:active { cursor: grabbing; }
+
+    .photo-thumb {
+      width: 80px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 3px;
+      background: var(--bg3);
+      display: block;
+    }
+
+    .photo-fields { display: flex; flex-direction: column; gap: 0.4rem; }
+
+    .photo-fields .field { margin-bottom: 0; }
+
+    .photo-fields input {
+      font-size: 0.82rem;
+      padding: 0.4rem 0.6rem;
+    }
+
+    .photo-fields textarea {
+      font-size: 0.82rem;
+      padding: 0.4rem 0.6rem;
+      min-height: 60px;
+    }
+
+    .photo-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .photo-actions .btn { padding: 0.4rem 0.6rem; font-size: 0.75rem; }
+
+    /* ── Profile tab ── */
+    .profile-section { max-width: 500px; }
+
+    .profile-preview {
+      width: 200px;
+      height: 250px;
+      object-fit: cover;
+      object-position: top;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      display: block;
+      margin-bottom: 1rem;
+      background: var(--bg3);
+    }
+
+    /* ── Upload zone ── */
+    .upload-zone {
+      border: 2px dashed var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      text-align: center;
+      color: var(--muted);
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .upload-zone:hover { border-color: var(--gold); background: #100e00; }
+    .upload-zone input { display: none; }
+    .upload-zone p { font-size: 0.85rem; margin-top: 0.5rem; }
+
+    /* ── Status toast ── */
+    #toast {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.75rem 1rem;
+      font-size: 0.85rem;
+      display: none;
+      z-index: 999;
+      max-width: 320px;
+    }
+
+    #toast.show { display: block; }
+    #toast.success { border-color: #2a4a2a; color: #7ec87e; }
+    #toast.error   { border-color: #4a2a2a; color: #e07070; }
+    #toast.loading { border-color: var(--border); color: var(--muted); }
+
+    /* ── Delete confirm modal ── */
+    #modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.7);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+    }
+
+    #modal-overlay.show { display: flex; }
+
+    .modal {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      max-width: 360px;
+      width: 90%;
+    }
+
+    .modal h3 { font-size: 1rem; margin-bottom: 0.5rem; }
+    .modal p  { color: var(--muted); font-size: 0.85rem; margin-bottom: 1.2rem; line-height: 1.5; }
+    .modal-actions { display: flex; gap: 0.5rem; justify-content: flex-end; }
+
+    /* ── Misc ── */
+    .divider { border: none; border-top: 1px solid var(--border); margin: 1.5rem 0; }
+    .section-label { font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 0.6rem; }
+    .new-badge { font-size: 0.65rem; background: var(--gold); color: #111; padding: 1px 5px; border-radius: 3px; vertical-align: middle; margin-left: 4px; }
+  </style>
+</head>
+<body>
+
+<!-- ── Setup screen ── -->
+<div class="auth-wrap" id="setup-screen" style="display:none">
+  <div class="auth-card">
+    <h1>Set up Editor</h1>
+    <p>First time setup. Choose a password your mom will use to log in, and paste your GitHub Personal Access Token so the editor can save changes to the site.</p>
+    <div class="field">
+      <label>Editor Password</label>
+      <input type="password" id="setup-pw" placeholder="Choose a password" autocomplete="new-password">
+    </div>
+    <div class="field">
+      <label>GitHub Personal Access Token</label>
+      <input type="password" id="setup-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off">
+    </div>
+    <button class="btn btn-primary btn-full" onclick="doSetup()">Save & Continue</button>
+    <div class="error-msg" id="setup-error"></div>
+  </div>
+</div>
+
+<!-- ── Login screen ── -->
+<div class="auth-wrap" id="login-screen" style="display:none">
+  <div class="auth-card">
+    <h1>Editor Login</h1>
+    <p>Luz Hernandez Kroll Photography</p>
+    <div class="field">
+      <label>Password</label>
+      <input type="password" id="login-pw" placeholder="Enter password" autocomplete="current-password"
+             onkeydown="if(event.key==='Enter') doLogin()">
+    </div>
+    <button class="btn btn-primary btn-full" onclick="doLogin()">Log In</button>
+    <div class="error-msg" id="login-error"></div>
+    <hr class="divider">
+    <button class="btn btn-ghost btn-full" style="font-size:0.75rem" onclick="resetSetup()">Reset / Change password & token</button>
+  </div>
+</div>
+
+<!-- ── Main app ── -->
+<div id="app">
+  <div class="topbar">
+    <span class="topbar-title">Site Editor</span>
+    <div class="topbar-actions">
+      <button class="btn btn-primary" id="publish-btn" onclick="publishChanges()">Publish Changes</button>
+      <button class="btn btn-ghost" onclick="doLogout()">Log out</button>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('gallery', this)">Gallery</button>
+    <button class="tab-btn" onclick="switchTab('profile', this)">Profile Photo</button>
+  </div>
+
+  <!-- Gallery tab -->
+  <div class="tab-panel active" id="tab-gallery">
+    <div class="gallery-toolbar">
+      <p>Drag rows to reorder. Changes are saved when you click <strong style="color:var(--text)">Publish Changes</strong>.</p>
+      <label class="btn btn-ghost" style="cursor:pointer">
+        + Add Photo
+        <input type="file" accept="image/*" multiple style="display:none" onchange="addPhotos(this)">
+      </label>
+    </div>
+    <ul id="photo-list"></ul>
+  </div>
+
+  <!-- Profile tab -->
+  <div class="tab-panel" id="tab-profile">
+    <div class="profile-section">
+      <span class="section-label">Current Profile Photo</span>
+      <img id="profile-preview" class="profile-preview" src="profile.jpg" alt="Profile photo">
+      <label class="upload-zone">
+        <input type="file" accept="image/*" onchange="changeProfile(this)">
+        <div style="font-size:1.5rem">&#8593;</div>
+        <p>Click to upload a new profile photo</p>
+      </label>
+    </div>
+  </div>
+</div>
+
+<!-- Delete confirm modal -->
+<div id="modal-overlay">
+  <div class="modal">
+    <h3>Remove Photo</h3>
+    <p>This photo will be removed from the gallery when you publish. The image file will also be deleted from the site.</p>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-danger" id="modal-confirm-btn">Remove</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast"></div>
+
+<script>
+  /* ── Config ── */
+  const REPO_OWNER  = 'albertoorsini';
+  const REPO_NAME   = 'luz-hernandez-kroll-photography';
+  const BRANCH      = 'main';
+
+  /* ── State ── */
+  let token      = null;
+  let photos     = [];        // current gallery data
+  let dataJsonSha = null;     // SHA of data.json on GitHub
+  let profileSha  = null;     // SHA of profile.jpg on GitHub
+  let pendingUploads = {};    // tempId → { file, previewUrl, filename }
+  let pendingDeletes = new Set(); // file paths to delete from GitHub
+  let pendingProfileFile = null; // File object for new profile photo
+
+  /* ── Crypto helpers ── */
+  async function sha256(str) {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+  }
+
+  /* ── Auth ── */
+  async function doSetup() {
+    const pw    = document.getElementById('setup-pw').value.trim();
+    const tok   = document.getElementById('setup-token').value.trim();
+    const errEl = document.getElementById('setup-error');
+    errEl.classList.remove('show');
+
+    if (!pw || pw.length < 4) { showAuthError(errEl, 'Password must be at least 4 characters.'); return; }
+    if (!tok.startsWith('ghp_') && !tok.startsWith('github_pat_')) {
+      showAuthError(errEl, 'Token should start with ghp_ or github_pat_'); return;
+    }
+    const hash = await sha256(pw);
+    localStorage.setItem('editor_pw_hash', hash);
+    localStorage.setItem('editor_token', tok);
+    document.getElementById('setup-screen').style.display = 'none';
+    token = tok;
+    await initApp();
+  }
+
+  async function doLogin() {
+    const pw    = document.getElementById('login-pw').value;
+    const errEl = document.getElementById('login-error');
+    errEl.classList.remove('show');
+    const hash   = await sha256(pw);
+    const stored = localStorage.getItem('editor_pw_hash');
+    if (hash !== stored) { showAuthError(errEl, 'Incorrect password.'); return; }
+    token = localStorage.getItem('editor_token');
+    document.getElementById('login-screen').style.display = 'none';
+    await initApp();
+  }
+
+  function doLogout() {
+    token = null; photos = []; dataJsonSha = null;
+    document.getElementById('app').classList.remove('visible');
+    document.getElementById('login-screen').style.display = 'flex';
+    document.getElementById('login-pw').value = '';
+  }
+
+  function resetSetup() {
+    localStorage.removeItem('editor_pw_hash');
+    localStorage.removeItem('editor_token');
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('setup-screen').style.display = 'flex';
+  }
+
+  function showAuthError(el, msg) {
+    el.textContent = msg;
+    el.classList.add('show');
+  }
+
+  /* ── Boot ── */
+  window.addEventListener('DOMContentLoaded', () => {
+    const hash = localStorage.getItem('editor_pw_hash');
+    const tok  = localStorage.getItem('editor_token');
+    if (!hash || !tok) {
+      document.getElementById('setup-screen').style.display = 'flex';
+    } else {
+      document.getElementById('login-screen').style.display = 'flex';
+    }
+  });
+
+  /* ── GitHub API ── */
+  function ghEncodePath(path) {
+    return path.split('/').map(encodeURIComponent).join('/');
+  }
+
+  async function ghGetFile(path) {
+    const res = await fetch(
+      `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${ghEncodePath(path)}`,
+      { headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' } }
+    );
+    if (!res.ok) throw new Error(`GitHub GET failed (${res.status}): ${path}`);
+    return res.json();
+  }
+
+  async function ghPutFile(path, base64Content, sha, message) {
+    const body = { message, content: base64Content, branch: BRANCH };
+    if (sha) body.sha = sha;
+    const res = await fetch(
+      `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${ghEncodePath(path)}`,
+      {
+        method: 'PUT',
+        headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      }
+    );
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.message || `GitHub PUT failed (${res.status})`);
+    }
+    return res.json();
+  }
+
+  async function ghDeleteFile(path, sha, message) {
+    const res = await fetch(
+      `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${ghEncodePath(path)}`,
+      {
+        method: 'DELETE',
+        headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message, sha, branch: BRANCH })
+      }
+    );
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.message || `GitHub DELETE failed (${res.status})`);
+    }
+    return res.json();
+  }
+
+  async function fileToBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        // result is "data:...;base64,XXXXX" — strip the prefix
+        resolve(reader.result.split(',')[1]);
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function textToBase64(str) {
+    return btoa(unescape(encodeURIComponent(str)));
+  }
+
+  /* ── Init app ── */
+  async function initApp() {
+    document.getElementById('app').classList.add('visible');
+    showToast('Loading gallery data…', 'loading');
+    try {
+      const fileData = await ghGetFile('data.json');
+      dataJsonSha = fileData.sha;
+      const content = JSON.parse(atob(fileData.content.replace(/\n/g, '')));
+      photos = content.photos;
+      renderPhotoList();
+      // Pre-fetch profile sha
+      ghGetFile('profile.jpg').then(f => { profileSha = f.sha; }).catch(() => {});
+      hideToast();
+    } catch (e) {
+      showToast('Failed to load gallery data: ' + e.message, 'error');
+    }
+  }
+
+  /* ── Tabs ── */
+  function switchTab(name, btn) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + name).classList.add('active');
+  }
+
+  /* ── Render photo list ── */
+  function renderPhotoList() {
+    const list = document.getElementById('photo-list');
+    list.innerHTML = '';
+    photos.forEach((p, i) => {
+      const li = document.createElement('li');
+      li.className = 'photo-row';
+      li.dataset.index = i;
+      li.draggable = true;
+
+      const isPending = p.file.startsWith('pending:');
+      const thumbSrc = isPending
+        ? (pendingUploads[p.file.split(':')[1]] || {}).previewUrl || ''
+        : encodeURI(p.file);
+
+      li.innerHTML = `
+        <div class="drag-handle" title="Drag to reorder">
+          <span></span><span></span><span></span>
+        </div>
+        <img class="photo-thumb" src="${thumbSrc}" alt="${p.title}">
+        <div class="photo-fields">
+          <div class="field">
+            <label>Title ${isPending ? '<span class="new-badge">NEW</span>' : ''}</label>
+            <input type="text" value="${escHtml(p.title)}" placeholder="Photo title"
+                   oninput="updateField(${i}, 'title', this.value)">
+          </div>
+          <div class="field">
+            <label>Location</label>
+            <input type="text" value="${escHtml(p.location)}" placeholder="Location"
+                   oninput="updateField(${i}, 'location', this.value)">
+          </div>
+          <div class="field">
+            <label>Description</label>
+            <textarea placeholder="Description" oninput="updateField(${i}, 'desc', this.value)">${escHtml(p.desc)}</textarea>
+          </div>
+        </div>
+        <div class="photo-actions">
+          <button class="btn btn-danger" onclick="confirmDelete(${i})">Remove</button>
+        </div>`;
+
+      // Drag events
+      li.addEventListener('dragstart', onDragStart);
+      li.addEventListener('dragover',  onDragOver);
+      li.addEventListener('dragleave', onDragLeave);
+      li.addEventListener('drop',      onDrop);
+      li.addEventListener('dragend',   onDragEnd);
+
+      list.appendChild(li);
+    });
+  }
+
+  function escHtml(str) {
+    return (str || '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  function updateField(i, key, value) {
+    photos[i][key] = value;
+  }
+
+  /* ── Drag & drop reorder ── */
+  let dragSrcIndex = null;
+
+  function onDragStart(e) {
+    dragSrcIndex = +this.dataset.index;
+    this.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+  }
+
+  function onDragOver(e) {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    this.classList.add('drag-over');
+  }
+
+  function onDragLeave() {
+    this.classList.remove('drag-over');
+  }
+
+  function onDrop(e) {
+    e.preventDefault();
+    this.classList.remove('drag-over');
+    const targetIndex = +this.dataset.index;
+    if (dragSrcIndex === null || dragSrcIndex === targetIndex) return;
+    const moved = photos.splice(dragSrcIndex, 1)[0];
+    photos.splice(targetIndex, 0, moved);
+    renderPhotoList();
+  }
+
+  function onDragEnd() {
+    document.querySelectorAll('.photo-row').forEach(r => {
+      r.classList.remove('dragging', 'drag-over');
+    });
+    dragSrcIndex = null;
+  }
+
+  /* ── Add photos ── */
+  function addPhotos(input) {
+    Array.from(input.files).forEach(file => {
+      const tempId = 'upload_' + Date.now() + '_' + Math.random().toString(36).slice(2);
+      const previewUrl = URL.createObjectURL(file);
+      const ext = file.name.split('.').pop().toLowerCase();
+      const filename = `Image Order/${tempId}.${ext}`;
+      pendingUploads[tempId] = { file, previewUrl, filename };
+      photos.push({ file: `pending:${tempId}`, title: '', location: '', desc: '' });
+    });
+    input.value = '';
+    renderPhotoList();
+  }
+
+  /* ── Delete ── */
+  let pendingDeleteIndex = null;
+
+  function confirmDelete(i) {
+    pendingDeleteIndex = i;
+    document.getElementById('modal-overlay').classList.add('show');
+    document.getElementById('modal-confirm-btn').onclick = executeDelete;
+  }
+
+  function executeDelete() {
+    const i = pendingDeleteIndex;
+    const p = photos[i];
+    if (!p.file.startsWith('pending:')) {
+      pendingDeletes.add(p.file);
+    } else {
+      const tempId = p.file.split(':')[1];
+      delete pendingUploads[tempId];
+    }
+    photos.splice(i, 1);
+    closeModal();
+    renderPhotoList();
+  }
+
+  function closeModal() {
+    document.getElementById('modal-overlay').classList.remove('show');
+    pendingDeleteIndex = null;
+  }
+
+  document.getElementById('modal-overlay').addEventListener('click', e => {
+    if (e.target === document.getElementById('modal-overlay')) closeModal();
+  });
+
+  /* ── Profile photo ── */
+  function changeProfile(input) {
+    const file = input.files[0];
+    if (!file) return;
+    pendingProfileFile = file;
+    document.getElementById('profile-preview').src = URL.createObjectURL(file);
+    input.value = '';
+  }
+
+  /* ── Publish ── */
+  async function publishChanges() {
+    const btn = document.getElementById('publish-btn');
+    btn.disabled = true;
+    showToast('Publishing…', 'loading');
+
+    try {
+      let step = 0;
+      const total = pendingDeletes.size + Object.keys(pendingUploads).length + 1
+                    + (pendingProfileFile ? 1 : 0);
+
+      // 1. Delete removed photos
+      for (const filePath of pendingDeletes) {
+        showToast(`Deleting files… (${++step}/${total})`, 'loading');
+        try {
+          const fileData = await ghGetFile(filePath);
+          await ghDeleteFile(filePath, fileData.sha, `Remove ${filePath}`);
+        } catch (e) {
+          // If file not found on GitHub, that's fine — skip
+          if (!e.message.includes('404')) throw e;
+        }
+      }
+      pendingDeletes.clear();
+
+      // 2. Upload new photos
+      for (const [tempId, upload] of Object.entries(pendingUploads)) {
+        showToast(`Uploading photos… (${++step}/${total})`, 'loading');
+        const base64 = await fileToBase64(upload.file);
+        await ghPutFile(upload.filename, base64, null, `Upload ${upload.file.name || tempId}`);
+        // Replace pending reference in photos array
+        const idx = photos.findIndex(p => p.file === `pending:${tempId}`);
+        if (idx !== -1) photos[idx].file = upload.filename;
+        delete pendingUploads[tempId];
+      }
+
+      // 3. Save data.json
+      showToast(`Saving gallery data… (${++step}/${total})`, 'loading');
+      const jsonStr   = JSON.stringify({ photos }, null, 2);
+      const jsonB64   = textToBase64(jsonStr);
+      const result    = await ghPutFile('data.json', jsonB64, dataJsonSha, 'Update gallery data');
+      dataJsonSha     = result.content.sha;
+
+      // 4. Upload new profile photo
+      if (pendingProfileFile) {
+        showToast(`Uploading profile photo… (${++step}/${total})`, 'loading');
+        const base64 = await fileToBase64(pendingProfileFile);
+        const result2 = await ghPutFile('profile.jpg', base64, profileSha, 'Update profile photo');
+        profileSha = result2.content.sha;
+        pendingProfileFile = null;
+      }
+
+      renderPhotoList();
+      showToast('Published! Changes will be live in ~1 minute.', 'success');
+    } catch (e) {
+      showToast('Publish failed: ' + e.message, 'error');
+    } finally {
+      btn.disabled = false;
+    }
+  }
+
+  /* ── Toast ── */
+  let toastTimer = null;
+
+  function showToast(msg, type = 'loading') {
+    const el = document.getElementById('toast');
+    el.textContent = msg;
+    el.className = `show ${type}`;
+    clearTimeout(toastTimer);
+    if (type !== 'loading') {
+      toastTimer = setTimeout(hideToast, 4000);
+    }
+  }
+
+  function hideToast() {
+    document.getElementById('toast').classList.remove('show');
+  }
+</script>
+</body>
+</html>
