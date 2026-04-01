@@ -3,20 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Editor — Luz Hernandez Kroll Photography</title>
+  <title>Site Editor — Luz Hernandez Kroll Photography</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
       --bg:     #0d0d0d;
       --bg2:    #131313;
-      --bg3:    #1a1a1a;
+      --bg3:    #1c1c1c;
       --gold:   #c9a96e;
       --gold2:  #a8833e;
       --text:   #e8e0d5;
-      --muted:  #888;
-      --border: #2a2a2a;
-      --red:    #c0392b;
+      --muted:  #777;
+      --border: #252525;
       --radius: 6px;
     }
 
@@ -28,12 +27,10 @@
       min-height: 100vh;
     }
 
-    /* ── Auth screens ── */
+    /* ── Login ── */
     .auth-wrap {
       min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       padding: 2rem;
     }
 
@@ -42,87 +39,66 @@
       border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 2.5rem 2rem;
-      width: 100%;
-      max-width: 420px;
+      width: 100%; max-width: 400px;
     }
 
     .auth-card h1 {
       font-family: Georgia, serif;
-      font-size: 1.4rem;
-      font-weight: 400;
+      font-size: 1.3rem; font-weight: 400;
       color: var(--gold);
-      margin-bottom: 0.4rem;
+      margin-bottom: 0.3rem;
     }
 
-    .auth-card p {
-      color: var(--muted);
-      font-size: 0.82rem;
+    .auth-card .subtitle {
+      color: var(--muted); font-size: 0.8rem;
       margin-bottom: 1.8rem;
-      line-height: 1.6;
     }
 
-    .field { margin-bottom: 1rem; }
+    .field { margin-bottom: 0.9rem; }
 
     .field label {
       display: block;
-      font-size: 0.75rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 0.4rem;
+      font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 0.35rem;
     }
 
-    .field input, .field textarea, .field select {
+    .field input, .field textarea {
       width: 100%;
-      background: var(--bg3);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      color: var(--text);
-      font-size: 0.9rem;
-      padding: 0.6rem 0.75rem;
-      outline: none;
-      transition: border-color 0.2s;
+      background: var(--bg3); border: 1px solid var(--border);
+      border-radius: var(--radius); color: var(--text);
+      font-size: 0.9rem; padding: 0.6rem 0.75rem; outline: none;
+      transition: border-color 0.18s;
     }
 
-    .field input:focus, .field textarea:focus {
-      border-color: var(--gold);
-    }
+    .field input:focus, .field textarea:focus { border-color: var(--gold); }
+    .field textarea { resize: vertical; min-height: 90px; line-height: 1.55; }
 
-    .field textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
+    .field-hint {
+      font-size: 0.72rem; color: var(--muted);
+      margin-top: 0.3rem; line-height: 1.5;
+    }
 
     .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      padding: 0.6rem 1.2rem;
-      border-radius: var(--radius);
-      border: none;
-      cursor: pointer;
-      font-size: 0.85rem;
-      font-weight: 500;
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.6rem 1.2rem; border-radius: var(--radius);
+      border: none; cursor: pointer; font-size: 0.85rem; font-weight: 500;
       transition: opacity 0.15s, background 0.15s;
     }
-
     .btn:disabled { opacity: 0.4; cursor: not-allowed; }
     .btn-primary  { background: var(--gold); color: #111; }
     .btn-primary:hover:not(:disabled) { background: var(--gold2); }
     .btn-ghost    { background: transparent; border: 1px solid var(--border); color: var(--muted); }
     .btn-ghost:hover:not(:disabled) { border-color: var(--gold); color: var(--text); }
-    .btn-danger   { background: transparent; border: 1px solid #3a1a1a; color: #c0392b; }
-    .btn-danger:hover:not(:disabled) { background: #1e0a0a; border-color: var(--red); }
-    .btn-full { width: 100%; justify-content: center; margin-top: 0.5rem; }
+    .btn-danger   { background: rgba(160,40,40,0.15); border: 1px solid rgba(160,40,40,0.3); color: #e07070; }
+    .btn-danger:hover:not(:disabled) { background: rgba(160,40,40,0.28); }
+    .btn-full { width: 100%; justify-content: center; margin-top: 0.4rem; }
 
     .error-msg {
-      background: #1e0a0a;
-      border: 1px solid #3a1a1a;
-      color: #e07070;
-      border-radius: var(--radius);
-      padding: 0.6rem 0.75rem;
-      font-size: 0.82rem;
-      margin-top: 0.75rem;
-      display: none;
+      background: rgba(160,40,40,0.12); border: 1px solid rgba(160,40,40,0.3);
+      color: #e07070; border-radius: var(--radius);
+      padding: 0.55rem 0.75rem; font-size: 0.82rem;
+      margin-top: 0.75rem; display: none;
     }
-
     .error-msg.show { display: block; }
 
     /* ── App shell ── */
@@ -130,261 +106,258 @@
     #app.visible { display: flex; }
 
     .topbar {
-      background: var(--bg2);
-      border-bottom: 1px solid var(--border);
-      padding: 0 1.5rem;
-      height: 56px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: sticky;
-      top: 0;
-      z-index: 100;
+      background: var(--bg2); border-bottom: 1px solid var(--border);
+      padding: 0 1.5rem; height: 54px;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 50;
     }
 
-    .topbar-title {
-      font-family: Georgia, serif;
-      font-size: 1rem;
-      font-weight: 400;
-      color: var(--gold);
-    }
+    .topbar-title { font-family: Georgia, serif; font-size: 0.95rem; color: var(--gold); }
 
     .topbar-actions { display: flex; gap: 0.5rem; align-items: center; }
 
     .tabs {
-      display: flex;
-      gap: 0;
-      border-bottom: 1px solid var(--border);
-      padding: 0 1.5rem;
-      background: var(--bg2);
+      background: var(--bg2); border-bottom: 1px solid var(--border);
+      padding: 0 1.5rem; display: flex;
     }
 
     .tab-btn {
-      background: none;
-      border: none;
-      border-bottom: 2px solid transparent;
-      color: var(--muted);
-      cursor: pointer;
-      font-size: 0.82rem;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      padding: 0.85rem 1rem;
-      margin-bottom: -1px;
+      background: none; border: none; border-bottom: 2px solid transparent;
+      color: var(--muted); cursor: pointer;
+      font-size: 0.78rem; letter-spacing: 0.07em; text-transform: uppercase;
+      padding: 0.8rem 1rem; margin-bottom: -1px;
       transition: color 0.15s, border-color 0.15s;
     }
-
-    .tab-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+    .tab-btn.active   { color: var(--gold); border-bottom-color: var(--gold); }
     .tab-btn:hover:not(.active) { color: var(--text); }
 
     .tab-panel { display: none; padding: 1.5rem; flex: 1; }
     .tab-panel.active { display: block; }
 
-    /* ── Gallery list ── */
-    .gallery-toolbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    /* ── Photo grid ── */
+    .grid-toolbar {
+      display: flex; justify-content: space-between; align-items: center;
       margin-bottom: 1.2rem;
     }
 
-    .gallery-toolbar p { color: var(--muted); font-size: 0.8rem; }
+    .grid-toolbar p { color: var(--muted); font-size: 0.78rem; }
 
-    #photo-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
-
-    .photo-row {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
+    #photo-grid {
       display: grid;
-      grid-template-columns: 32px 80px 1fr auto;
-      gap: 0.75rem;
-      align-items: start;
-      padding: 0.75rem;
-      transition: border-color 0.15s, background 0.15s;
+      grid-template-columns: repeat(3, 1fr);
+      grid-auto-rows: 4px;
+      gap: 6px;
     }
 
-    .photo-row.drag-over {
-      border-color: var(--gold);
-      background: #1a1600;
-    }
-
-    .photo-row.dragging { opacity: 0.4; }
-
-    .drag-handle {
-      color: var(--muted);
+    .photo-cell {
+      position: relative; overflow: hidden;
       cursor: grab;
-      font-size: 1.1rem;
-      user-select: none;
-      padding-top: 2px;
-      line-height: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-      align-items: center;
-      padding-top: 6px;
-    }
-
-    .drag-handle span {
-      display: block;
-      width: 16px;
-      height: 2px;
-      background: var(--muted);
       border-radius: 2px;
     }
 
-    .drag-handle:active { cursor: grabbing; }
+    .photo-cell:active { cursor: grabbing; }
 
-    .photo-thumb {
-      width: 80px;
-      height: 60px;
-      object-fit: cover;
-      border-radius: 3px;
+    .photo-cell.dragging { opacity: 0.35; }
+
+    .photo-cell.drag-over::after {
+      content: '';
+      position: absolute; inset: 0;
+      border: 2px solid var(--gold);
+      border-radius: 2px;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .photo-cell img {
+      width: 100%; display: block;
       background: var(--bg3);
-      display: block;
+      pointer-events: none;
+      user-select: none;
     }
 
-    .photo-fields { display: flex; flex-direction: column; gap: 0.4rem; }
-
-    .photo-fields .field { margin-bottom: 0; }
-
-    .photo-fields input {
-      font-size: 0.82rem;
-      padding: 0.4rem 0.6rem;
+    .cell-num {
+      position: absolute; top: 7px; left: 7px;
+      background: rgba(0,0,0,0.72);
+      color: var(--gold);
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.05em;
+      padding: 2px 7px; border-radius: 3px;
+      z-index: 5; pointer-events: none;
     }
 
-    .photo-fields textarea {
-      font-size: 0.82rem;
-      padding: 0.4rem 0.6rem;
-      min-height: 60px;
+    .cell-overlay {
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,0.58);
+      opacity: 0; transition: opacity 0.2s;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 0.5rem; z-index: 5;
     }
 
-    .photo-actions {
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-    }
+    .photo-cell:hover .cell-overlay { opacity: 1; }
 
-    .photo-actions .btn { padding: 0.4rem 0.6rem; font-size: 0.75rem; }
+    .cell-overlay .btn { min-width: 120px; justify-content: center; font-size: 0.78rem; padding: 0.45rem 0.9rem; }
+
+    .cell-title {
+      color: #fff; font-size: 0.78rem; font-style: italic;
+      text-align: center; padding: 0 0.5rem;
+      max-width: 180px;
+      overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
+      pointer-events: none; margin-bottom: 0.3rem;
+    }
 
     /* ── Profile tab ── */
-    .profile-section { max-width: 500px; }
+    .profile-section { max-width: 440px; }
+
+    .profile-current {
+      display: flex; gap: 1.5rem; align-items: flex-start;
+      margin-bottom: 1.5rem;
+    }
 
     .profile-preview {
-      width: 200px;
-      height: 250px;
-      object-fit: cover;
-      object-position: top;
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-      display: block;
-      margin-bottom: 1rem;
-      background: var(--bg3);
+      width: 150px; height: 190px; object-fit: cover; object-position: top;
+      border-radius: var(--radius); border: 1px solid var(--border);
+      background: var(--bg3); display: block; flex-shrink: 0;
     }
 
-    /* ── Upload zone ── */
     .upload-zone {
-      border: 2px dashed var(--border);
-      border-radius: var(--radius);
-      padding: 2rem;
-      text-align: center;
-      color: var(--muted);
-      cursor: pointer;
-      transition: border-color 0.2s, background 0.2s;
+      border: 2px dashed var(--border); border-radius: var(--radius);
+      padding: 1.8rem; text-align: center; color: var(--muted);
+      cursor: pointer; transition: border-color 0.2s, background 0.2s;
+      display: block;
     }
-
-    .upload-zone:hover { border-color: var(--gold); background: #100e00; }
+    .upload-zone:hover { border-color: var(--gold); background: rgba(201,169,110,0.04); }
     .upload-zone input { display: none; }
-    .upload-zone p { font-size: 0.85rem; margin-top: 0.5rem; }
+    .upload-zone p { font-size: 0.82rem; margin-top: 0.4rem; }
+    .upload-icon { font-size: 1.6rem; }
 
-    /* ── Status toast ── */
-    #toast {
-      position: fixed;
-      bottom: 1.5rem;
-      right: 1.5rem;
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 0.75rem 1rem;
-      font-size: 0.85rem;
-      display: none;
-      z-index: 999;
-      max-width: 320px;
-    }
-
-    #toast.show { display: block; }
-    #toast.success { border-color: #2a4a2a; color: #7ec87e; }
-    #toast.error   { border-color: #4a2a2a; color: #e07070; }
-    #toast.loading { border-color: var(--border); color: var(--muted); }
-
-    /* ── Delete confirm modal ── */
-    #modal-overlay {
+    /* ── Edit modal ── */
+    #edit-modal {
       position: fixed; inset: 0;
-      background: rgba(0,0,0,0.7);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 200;
+      background: rgba(0,0,0,0.75);
+      display: none; align-items: center; justify-content: center;
+      z-index: 200; padding: 1rem;
     }
-
-    #modal-overlay.show { display: flex; }
+    #edit-modal.show { display: flex; }
 
     .modal {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.5rem;
-      max-width: 360px;
-      width: 90%;
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: var(--radius); width: 100%; max-width: 520px;
+      display: flex; flex-direction: column; max-height: 90vh;
     }
 
-    .modal h3 { font-size: 1rem; margin-bottom: 0.5rem; }
-    .modal p  { color: var(--muted); font-size: 0.85rem; margin-bottom: 1.2rem; line-height: 1.5; }
-    .modal-actions { display: flex; gap: 0.5rem; justify-content: flex-end; }
+    .modal-header {
+      padding: 1.2rem 1.5rem 1rem;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+    }
 
-    /* ── Misc ── */
-    .divider { border: none; border-top: 1px solid var(--border); margin: 1.5rem 0; }
-    .section-label { font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 0.6rem; }
-    .new-badge { font-size: 0.65rem; background: var(--gold); color: #111; padding: 1px 5px; border-radius: 3px; vertical-align: middle; margin-left: 4px; }
+    .modal-header h3 { font-size: 0.9rem; font-weight: 500; }
+
+    .modal-thumb {
+      width: 60px; height: 45px; object-fit: cover;
+      border-radius: 3px; border: 1px solid var(--border);
+    }
+
+    .modal-header-left { display: flex; align-items: center; gap: 0.75rem; }
+
+    .modal-close {
+      background: none; border: none; color: var(--muted);
+      font-size: 1.3rem; cursor: pointer; line-height: 1;
+      padding: 0.2rem;
+    }
+    .modal-close:hover { color: var(--text); }
+
+    .modal-body { padding: 1.2rem 1.5rem; overflow-y: auto; flex: 1; }
+
+    .modal-footer {
+      padding: 1rem 1.5rem;
+      border-top: 1px solid var(--border);
+      display: flex; gap: 0.5rem; justify-content: flex-end;
+    }
+
+    /* ── Delete confirm modal ── */
+    #delete-modal {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.75);
+      display: none; align-items: center; justify-content: center;
+      z-index: 300; padding: 1rem;
+    }
+    #delete-modal.show { display: flex; }
+
+    .delete-modal-box {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: var(--radius); width: 100%; max-width: 360px;
+      padding: 1.5rem;
+    }
+
+    .delete-modal-box h3 { font-size: 0.95rem; margin-bottom: 0.6rem; }
+    .delete-modal-box p  { color: var(--muted); font-size: 0.82rem; line-height: 1.55; margin-bottom: 1.2rem; }
+    .delete-modal-actions { display: flex; gap: 0.5rem; justify-content: flex-end; }
+
+    /* ── Toast ── */
+    #toast {
+      position: fixed; bottom: 1.5rem; right: 1.5rem;
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 0.7rem 1rem;
+      font-size: 0.83rem; display: none; z-index: 999;
+      max-width: 300px; line-height: 1.45;
+    }
+    #toast.show    { display: block; }
+    #toast.success { border-color: rgba(80,160,80,0.5); color: #7ec87e; }
+    #toast.error   { border-color: rgba(160,60,60,0.5); color: #e07070; }
+    #toast.loading { color: var(--muted); }
+
+    /* ── New badge ── */
+    .new-badge {
+      font-size: 0.62rem; background: var(--gold); color: #111;
+      padding: 1px 5px; border-radius: 3px; margin-left: 4px;
+      vertical-align: middle; font-style: normal;
+    }
+
+    /* ── Token reset link ── */
+    .text-link {
+      background: none; border: none; color: var(--muted);
+      font-size: 0.75rem; cursor: pointer; text-decoration: underline;
+      padding: 0;
+    }
+    .text-link:hover { color: var(--text); }
+
+    @media (max-width: 640px) {
+      #photo-grid { grid-template-columns: repeat(2, 1fr); }
+    }
   </style>
 </head>
 <body>
 
-<!-- ── Setup screen ── -->
-<div class="auth-wrap" id="setup-screen" style="display:none">
-  <div class="auth-card">
-    <h1>Set up Editor</h1>
-    <p>First time setup. Choose a password your mom will use to log in, and paste your GitHub Personal Access Token so the editor can save changes to the site.</p>
-    <div class="field">
-      <label>Editor Password</label>
-      <input type="password" id="setup-pw" placeholder="Choose a password" autocomplete="new-password">
-    </div>
-    <div class="field">
-      <label>GitHub Personal Access Token</label>
-      <input type="password" id="setup-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off">
-    </div>
-    <button class="btn btn-primary btn-full" onclick="doSetup()">Save & Continue</button>
-    <div class="error-msg" id="setup-error"></div>
-  </div>
-</div>
-
-<!-- ── Login screen ── -->
+<!-- ── Login ── -->
 <div class="auth-wrap" id="login-screen" style="display:none">
   <div class="auth-card">
-    <h1>Editor Login</h1>
-    <p>Luz Hernandez Kroll Photography</p>
+    <h1>Site Editor</h1>
+    <p class="subtitle">Luz Hernandez Kroll Photography</p>
+
     <div class="field">
       <label>Password</label>
-      <input type="password" id="login-pw" placeholder="Enter password" autocomplete="current-password"
+      <input type="password" id="login-pw" placeholder="Enter password"
+             autocomplete="current-password"
              onkeydown="if(event.key==='Enter') doLogin()">
     </div>
+
+    <div class="field" id="token-field" style="display:none">
+      <label>GitHub Access Token <em style="color:var(--gold);font-style:normal">(one-time setup)</em></label>
+      <input type="password" id="login-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off">
+      <p class="field-hint">This is stored in your browser and only needs to be entered once.</p>
+    </div>
+
     <button class="btn btn-primary btn-full" onclick="doLogin()">Log In</button>
     <div class="error-msg" id="login-error"></div>
-    <hr class="divider">
-    <button class="btn btn-ghost btn-full" style="font-size:0.75rem" onclick="resetSetup()">Reset / Change password & token</button>
+
+    <div style="margin-top:1.2rem;text-align:center">
+      <button class="text-link" onclick="resetToken()">Re-enter GitHub token</button>
+    </div>
   </div>
 </div>
 
-<!-- ── Main app ── -->
+<!-- ── App ── -->
 <div id="app">
   <div class="topbar">
     <span class="topbar-title">Site Editor</span>
@@ -399,186 +372,203 @@
     <button class="tab-btn" onclick="switchTab('profile', this)">Profile Photo</button>
   </div>
 
-  <!-- Gallery tab -->
+  <!-- Gallery -->
   <div class="tab-panel active" id="tab-gallery">
-    <div class="gallery-toolbar">
-      <p>Drag rows to reorder. Changes are saved when you click <strong style="color:var(--text)">Publish Changes</strong>.</p>
+    <div class="grid-toolbar">
+      <p>Drag photos to reorder &mdash; hover to edit or remove &mdash; click <strong style="color:var(--text)">Publish Changes</strong> to save.</p>
       <label class="btn btn-ghost" style="cursor:pointer">
         + Add Photo
         <input type="file" accept="image/*" multiple style="display:none" onchange="addPhotos(this)">
       </label>
     </div>
-    <ul id="photo-list"></ul>
+    <div id="photo-grid"></div>
   </div>
 
-  <!-- Profile tab -->
+  <!-- Profile -->
   <div class="tab-panel" id="tab-profile">
     <div class="profile-section">
-      <span class="section-label">Current Profile Photo</span>
-      <img id="profile-preview" class="profile-preview" src="../profile.jpg" alt="Profile photo">
+      <div class="profile-current">
+        <img id="profile-preview" class="profile-preview" src="../profile.jpg" alt="Profile photo">
+        <div>
+          <p style="font-size:0.82rem;color:var(--muted);line-height:1.6">
+            This is the photo shown in the About section. Upload a new one below and click
+            <strong style="color:var(--text)">Publish Changes</strong> to update it.
+          </p>
+        </div>
+      </div>
       <label class="upload-zone">
         <input type="file" accept="image/*" onchange="changeProfile(this)">
-        <div style="font-size:1.5rem">&#8593;</div>
-        <p>Click to upload a new profile photo</p>
+        <div class="upload-icon">&#8593;</div>
+        <p>Click to select a new profile photo</p>
       </label>
     </div>
   </div>
 </div>
 
-<!-- Delete confirm modal -->
-<div id="modal-overlay">
+<!-- Edit details modal -->
+<div id="edit-modal">
   <div class="modal">
-    <h3>Remove Photo</h3>
-    <p>This photo will be removed from the gallery when you publish. The image file will also be deleted from the site.</p>
-    <div class="modal-actions">
-      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
-      <button class="btn btn-danger" id="modal-confirm-btn">Remove</button>
+    <div class="modal-header">
+      <div class="modal-header-left">
+        <img id="edit-thumb" class="modal-thumb" src="" alt="">
+        <h3 id="edit-modal-title">Edit Photo</h3>
+      </div>
+      <button class="modal-close" onclick="closeEditModal()">&#x2715;</button>
+    </div>
+    <div class="modal-body">
+      <div class="field">
+        <label>Title</label>
+        <input type="text" id="edit-title" placeholder="Photo title">
+      </div>
+      <div class="field">
+        <label>Location</label>
+        <input type="text" id="edit-location" placeholder="e.g. Utah, Yellowstone National Park">
+      </div>
+      <div class="field">
+        <label>Description</label>
+        <textarea id="edit-desc" placeholder="Describe this photo…"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeEditModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveEdit()">Save</button>
     </div>
   </div>
 </div>
 
-<!-- Toast -->
+<!-- Delete confirm modal -->
+<div id="delete-modal">
+  <div class="delete-modal-box">
+    <h3>Remove Photo</h3>
+    <p>This photo will be removed from the gallery when you publish. The image file will also be deleted from the site.</p>
+    <div class="delete-modal-actions">
+      <button class="btn btn-ghost" onclick="closeDeleteModal()">Cancel</button>
+      <button class="btn btn-danger" id="delete-confirm-btn">Remove</button>
+    </div>
+  </div>
+</div>
+
 <div id="toast"></div>
 
 <script>
-  /* ── Config ── */
-  const REPO_OWNER  = 'albertoorsini';
-  const REPO_NAME   = 'luz-hernandez-kroll-photography';
-  const BRANCH      = 'main';
+  /* ─────────────────────────────────────────────────────────────
+     CONFIGURATION
+     Alberto: change EDITOR_PASSWORD to whatever password you want
+     your mom to use. Then commit & push the file.
+  ───────────────────────────────────────────────────────────── */
+  const EDITOR_PASSWORD = 'wildlife2025';
 
-  /* ── State ── */
-  let token      = null;
-  let photos     = [];        // current gallery data
-  let dataJsonSha = null;     // SHA of data.json on GitHub
-  let profileSha  = null;     // SHA of profile.jpg on GitHub
-  let pendingUploads = {};    // tempId → { file, previewUrl, filename }
-  let pendingDeletes = new Set(); // file paths to delete from GitHub
-  let pendingProfileFile = null; // File object for new profile photo
+  /* ── GitHub repo ── */
+  const REPO_OWNER = 'albertoorsini';
+  const REPO_NAME  = 'luz-hernandez-kroll-photography';
+  const BRANCH     = 'main';
 
-  /* ── Crypto helpers ── */
-  async function sha256(str) {
-    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
-    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
-  }
+  /* ── Runtime state ── */
+  let token           = null;
+  let photos          = [];
+  let dataJsonSha     = null;
+  let profileSha      = null;
+  let pendingUploads  = {};      // tempId → { file, previewUrl, filename }
+  let pendingDeletes  = new Set();
+  let pendingProfile  = null;
+  let editingIndex    = null;
+  let deletingIndex   = null;
 
-  /* ── Auth ── */
-  async function doSetup() {
-    const pw    = document.getElementById('setup-pw').value.trim();
-    const tok   = document.getElementById('setup-token').value.trim();
-    const errEl = document.getElementById('setup-error');
-    errEl.classList.remove('show');
+  /* ──────────── AUTH ──────────── */
 
-    if (!pw || pw.length < 4) { showAuthError(errEl, 'Password must be at least 4 characters.'); return; }
-    if (!tok.startsWith('ghp_') && !tok.startsWith('github_pat_')) {
-      showAuthError(errEl, 'Token should start with ghp_ or github_pat_'); return;
+  window.addEventListener('DOMContentLoaded', () => {
+    const tok = localStorage.getItem('editor_token');
+    document.getElementById('token-field').style.display = tok ? 'none' : 'block';
+    document.getElementById('login-screen').style.display = 'flex';
+  });
+
+  function doLogin() {
+    const pw  = document.getElementById('login-pw').value;
+    const err = document.getElementById('login-error');
+    err.classList.remove('show');
+
+    if (pw !== EDITOR_PASSWORD) {
+      err.textContent = 'Incorrect password.';
+      err.classList.add('show');
+      return;
     }
-    const hash = await sha256(pw);
-    localStorage.setItem('editor_pw_hash', hash);
-    localStorage.setItem('editor_token', tok);
-    document.getElementById('setup-screen').style.display = 'none';
-    token = tok;
-    await initApp();
-  }
 
-  async function doLogin() {
-    const pw    = document.getElementById('login-pw').value;
-    const errEl = document.getElementById('login-error');
-    errEl.classList.remove('show');
-    const hash   = await sha256(pw);
-    const stored = localStorage.getItem('editor_pw_hash');
-    if (hash !== stored) { showAuthError(errEl, 'Incorrect password.'); return; }
+    const tokenFieldWrap = document.getElementById('token-field');
+    if (tokenFieldWrap.style.display !== 'none') {
+      const tok = document.getElementById('login-token').value.trim();
+      if (!tok) {
+        err.textContent = 'Please enter the GitHub access token.';
+        err.classList.add('show');
+        return;
+      }
+      localStorage.setItem('editor_token', tok);
+    }
+
     token = localStorage.getItem('editor_token');
     document.getElementById('login-screen').style.display = 'none';
-    await initApp();
+    initApp();
   }
 
   function doLogout() {
     token = null; photos = []; dataJsonSha = null;
     document.getElementById('app').classList.remove('visible');
-    document.getElementById('login-screen').style.display = 'flex';
     document.getElementById('login-pw').value = '';
+    document.getElementById('login-screen').style.display = 'flex';
   }
 
-  function resetSetup() {
-    localStorage.removeItem('editor_pw_hash');
+  function resetToken() {
     localStorage.removeItem('editor_token');
-    document.getElementById('login-screen').style.display = 'none';
-    document.getElementById('setup-screen').style.display = 'flex';
+    document.getElementById('token-field').style.display = 'block';
+    document.getElementById('login-token').value = '';
   }
 
-  function showAuthError(el, msg) {
-    el.textContent = msg;
-    el.classList.add('show');
-  }
+  /* ──────────── GITHUB API ──────────── */
 
-  /* ── Boot ── */
-  window.addEventListener('DOMContentLoaded', () => {
-    const hash = localStorage.getItem('editor_pw_hash');
-    const tok  = localStorage.getItem('editor_token');
-    if (!hash || !tok) {
-      document.getElementById('setup-screen').style.display = 'flex';
-    } else {
-      document.getElementById('login-screen').style.display = 'flex';
-    }
-  });
+  function ghPath(p) { return p.split('/').map(encodeURIComponent).join('/'); }
 
-  /* ── GitHub API ── */
-  function ghEncodePath(path) {
-    return path.split('/').map(encodeURIComponent).join('/');
-  }
-
-  async function ghGetFile(path) {
+  async function ghGet(path) {
     const res = await fetch(
-      `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${ghEncodePath(path)}`,
-      { headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' } }
+      `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${ghPath(path)}`,
+      { headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github.v3+json' } }
     );
     if (!res.ok) throw new Error(`GitHub GET failed (${res.status}): ${path}`);
     return res.json();
   }
 
-  async function ghPutFile(path, base64Content, sha, message) {
-    const body = { message, content: base64Content, branch: BRANCH };
+  async function ghPut(path, base64, sha, msg) {
+    const body = { message: msg, content: base64, branch: BRANCH };
     if (sha) body.sha = sha;
     const res = await fetch(
-      `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${ghEncodePath(path)}`,
+      `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${ghPath(path)}`,
       {
         method: 'PUT',
-        headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
+        headers: { Authorization: `token ${token}`, 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
       }
     );
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({}));
-      throw new Error(err.message || `GitHub PUT failed (${res.status})`);
-    }
+    if (!res.ok) { const e = await res.json().catch(() => ({})); throw new Error(e.message || `GitHub PUT failed (${res.status})`); }
     return res.json();
   }
 
-  async function ghDeleteFile(path, sha, message) {
+  async function ghDelete(path, sha, msg) {
     const res = await fetch(
-      `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${ghEncodePath(path)}`,
+      `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${ghPath(path)}`,
       {
         method: 'DELETE',
-        headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message, sha, branch: BRANCH })
+        headers: { Authorization: `token ${token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: msg, sha, branch: BRANCH })
       }
     );
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({}));
-      throw new Error(err.message || `GitHub DELETE failed (${res.status})`);
-    }
+    if (!res.ok) { const e = await res.json().catch(() => ({})); throw new Error(e.message || `GitHub DELETE failed (${res.status})`); }
     return res.json();
   }
 
   async function fileToBase64(file) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => {
-        // result is "data:...;base64,XXXXX" — strip the prefix
-        resolve(reader.result.split(',')[1]);
-      };
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
+    return new Promise((res, rej) => {
+      const r = new FileReader();
+      r.onload  = () => res(r.result.split(',')[1]);
+      r.onerror = rej;
+      r.readAsDataURL(file);
     });
   }
 
@@ -586,25 +576,25 @@
     return btoa(unescape(encodeURIComponent(str)));
   }
 
-  /* ── Init app ── */
+  /* ──────────── INIT ──────────── */
+
   async function initApp() {
     document.getElementById('app').classList.add('visible');
-    showToast('Loading gallery data…', 'loading');
+    showToast('Loading gallery…', 'loading');
     try {
-      const fileData = await ghGetFile('data.json');
-      dataJsonSha = fileData.sha;
-      const content = JSON.parse(atob(fileData.content.replace(/\n/g, '')));
-      photos = content.photos;
-      renderPhotoList();
-      // Pre-fetch profile sha
-      ghGetFile('profile.jpg').then(f => { profileSha = f.sha; }).catch(() => {});
+      const f   = await ghGet('data.json');
+      dataJsonSha = f.sha;
+      photos    = JSON.parse(atob(f.content.replace(/\n/g, ''))).photos;
+      renderGrid();
+      ghGet('profile.jpg').then(f2 => { profileSha = f2.sha; }).catch(() => {});
       hideToast();
     } catch (e) {
-      showToast('Failed to load gallery data: ' + e.message, 'error');
+      showToast('Failed to load: ' + e.message, 'error');
     }
   }
 
-  /* ── Tabs ── */
+  /* ──────────── TABS ──────────── */
+
   function switchTab(name, btn) {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
@@ -612,209 +602,241 @@
     document.getElementById('tab-' + name).classList.add('active');
   }
 
-  /* ── Render photo list ── */
-  function renderPhotoList() {
-    const list = document.getElementById('photo-list');
-    list.innerHTML = '';
+  /* ──────────── GRID ──────────── */
+
+  function thumbSrc(p) {
+    if (p.file.startsWith('pending:')) {
+      const id = p.file.slice(8);
+      return (pendingUploads[id] || {}).previewUrl || '';
+    }
+    return '../' + encodeURI(p.file);
+  }
+
+  function fitCell(cell) {
+    const img = cell.querySelector('img');
+    if (!img || !img.naturalWidth) return;
+    const rowGap = 6, rowSize = 4;
+    const w = cell.getBoundingClientRect().width;
+    const h = (img.naturalHeight / img.naturalWidth) * w;
+    cell.style.gridRowEnd = 'span ' + Math.ceil((h + rowGap) / (rowSize + rowGap));
+  }
+
+  window.addEventListener('resize', () => {
+    document.querySelectorAll('.photo-cell').forEach(fitCell);
+  });
+
+  function renderGrid() {
+    const grid = document.getElementById('photo-grid');
+    grid.innerHTML = '';
+
     photos.forEach((p, i) => {
-      const li = document.createElement('li');
-      li.className = 'photo-row';
-      li.dataset.index = i;
-      li.draggable = true;
+      const cell = document.createElement('div');
+      cell.className = 'photo-cell';
+      cell.draggable = true;
+      cell.dataset.index = i;
 
       const isPending = p.file.startsWith('pending:');
-      const thumbSrc = isPending
-        ? (pendingUploads[p.file.split(':')[1]] || {}).previewUrl || ''
-        : encodeURI(p.file);
+      const src = thumbSrc(p);
 
-      li.innerHTML = `
-        <div class="drag-handle" title="Drag to reorder">
-          <span></span><span></span><span></span>
-        </div>
-        <img class="photo-thumb" src="${thumbSrc}" alt="${p.title}">
-        <div class="photo-fields">
-          <div class="field">
-            <label>Title ${isPending ? '<span class="new-badge">NEW</span>' : ''}</label>
-            <input type="text" value="${escHtml(p.title)}" placeholder="Photo title"
-                   oninput="updateField(${i}, 'title', this.value)">
-          </div>
-          <div class="field">
-            <label>Location</label>
-            <input type="text" value="${escHtml(p.location)}" placeholder="Location"
-                   oninput="updateField(${i}, 'location', this.value)">
-          </div>
-          <div class="field">
-            <label>Description</label>
-            <textarea placeholder="Description" oninput="updateField(${i}, 'desc', this.value)">${escHtml(p.desc)}</textarea>
-          </div>
-        </div>
-        <div class="photo-actions">
-          <button class="btn btn-danger" onclick="confirmDelete(${i})">Remove</button>
+      cell.innerHTML = `
+        <img src="${src}" alt="${escH(p.title)}" loading="lazy">
+        <div class="cell-num">${i + 1}${isPending ? ' <em class="new-badge">NEW</em>' : ''}</div>
+        <div class="cell-overlay">
+          <span class="cell-title">${escH(p.title || 'Untitled')}</span>
+          <button class="btn btn-ghost" onclick="openEditModal(${i}, event)">Edit Details</button>
+          <button class="btn btn-danger" onclick="openDeleteModal(${i}, event)">Remove</button>
         </div>`;
 
-      // Drag events
-      li.addEventListener('dragstart', onDragStart);
-      li.addEventListener('dragover',  onDragOver);
-      li.addEventListener('dragleave', onDragLeave);
-      li.addEventListener('drop',      onDrop);
-      li.addEventListener('dragend',   onDragEnd);
+      const img = cell.querySelector('img');
+      img.addEventListener('load', () => fitCell(cell));
+      if (img.complete && img.naturalWidth) fitCell(cell);
 
-      list.appendChild(li);
+      cell.addEventListener('dragstart', onDragStart);
+      cell.addEventListener('dragover',  onDragOver);
+      cell.addEventListener('dragleave', onDragLeave);
+      cell.addEventListener('drop',      onDrop);
+      cell.addEventListener('dragend',   onDragEnd);
+
+      grid.appendChild(cell);
     });
   }
 
-  function escHtml(str) {
+  function escH(str) {
     return (str || '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   }
 
-  function updateField(i, key, value) {
-    photos[i][key] = value;
-  }
+  /* ──────────── DRAG & DROP ──────────── */
 
-  /* ── Drag & drop reorder ── */
-  let dragSrcIndex = null;
+  let dragSrcIdx = null;
 
   function onDragStart(e) {
-    dragSrcIndex = +this.dataset.index;
+    dragSrcIdx = +this.dataset.index;
     this.classList.add('dragging');
     e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', dragSrcIdx);
   }
 
   function onDragOver(e) {
     e.preventDefault();
     e.dataTransfer.dropEffect = 'move';
-    this.classList.add('drag-over');
+    if (+this.dataset.index !== dragSrcIdx) this.classList.add('drag-over');
   }
 
-  function onDragLeave() {
-    this.classList.remove('drag-over');
-  }
+  function onDragLeave() { this.classList.remove('drag-over'); }
 
   function onDrop(e) {
     e.preventDefault();
     this.classList.remove('drag-over');
-    const targetIndex = +this.dataset.index;
-    if (dragSrcIndex === null || dragSrcIndex === targetIndex) return;
-    const moved = photos.splice(dragSrcIndex, 1)[0];
-    photos.splice(targetIndex, 0, moved);
-    renderPhotoList();
+    const toIdx = +this.dataset.index;
+    if (dragSrcIdx === null || dragSrcIdx === toIdx) return;
+    const moved = photos.splice(dragSrcIdx, 1)[0];
+    photos.splice(toIdx, 0, moved);
+    renderGrid();
   }
 
   function onDragEnd() {
-    document.querySelectorAll('.photo-row').forEach(r => {
-      r.classList.remove('dragging', 'drag-over');
-    });
-    dragSrcIndex = null;
+    document.querySelectorAll('.photo-cell').forEach(c => c.classList.remove('dragging', 'drag-over'));
+    dragSrcIdx = null;
   }
 
-  /* ── Add photos ── */
+  /* ──────────── ADD PHOTOS ──────────── */
+
   function addPhotos(input) {
     Array.from(input.files).forEach(file => {
-      const tempId = 'upload_' + Date.now() + '_' + Math.random().toString(36).slice(2);
-      const previewUrl = URL.createObjectURL(file);
+      const id  = 'upload_' + Date.now() + '_' + Math.random().toString(36).slice(2);
       const ext = file.name.split('.').pop().toLowerCase();
-      const filename = `Image Order/${tempId}.${ext}`;
-      pendingUploads[tempId] = { file, previewUrl, filename };
-      photos.push({ file: `pending:${tempId}`, title: '', location: '', desc: '' });
+      pendingUploads[id] = { file, previewUrl: URL.createObjectURL(file), filename: `Image Order/${id}.${ext}` };
+      photos.push({ file: `pending:${id}`, title: '', location: '', desc: '' });
     });
     input.value = '';
-    renderPhotoList();
+    renderGrid();
   }
 
-  /* ── Delete ── */
-  let pendingDeleteIndex = null;
+  /* ──────────── EDIT MODAL ──────────── */
 
-  function confirmDelete(i) {
-    pendingDeleteIndex = i;
-    document.getElementById('modal-overlay').classList.add('show');
-    document.getElementById('modal-confirm-btn').onclick = executeDelete;
+  function openEditModal(i, e) {
+    e.stopPropagation();
+    editingIndex = i;
+    const p = photos[i];
+    document.getElementById('edit-title').value    = p.title    || '';
+    document.getElementById('edit-location').value = p.location || '';
+    document.getElementById('edit-desc').value     = p.desc     || '';
+    document.getElementById('edit-thumb').src      = thumbSrc(p);
+    document.getElementById('edit-modal-title').textContent = p.title ? `"${p.title}"` : 'New Photo';
+    document.getElementById('edit-modal').classList.add('show');
+  }
+
+  function closeEditModal() {
+    document.getElementById('edit-modal').classList.remove('show');
+    editingIndex = null;
+  }
+
+  function saveEdit() {
+    const i = editingIndex;
+    photos[i].title    = document.getElementById('edit-title').value.trim();
+    photos[i].location = document.getElementById('edit-location').value.trim();
+    photos[i].desc     = document.getElementById('edit-desc').value.trim();
+    closeEditModal();
+    renderGrid();
+  }
+
+  document.getElementById('edit-modal').addEventListener('click', e => {
+    if (e.target === document.getElementById('edit-modal')) closeEditModal();
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { closeEditModal(); closeDeleteModal(); }
+  });
+
+  /* ──────────── DELETE MODAL ──────────── */
+
+  function openDeleteModal(i, e) {
+    e.stopPropagation();
+    deletingIndex = i;
+    document.getElementById('delete-modal').classList.add('show');
+    document.getElementById('delete-confirm-btn').onclick = executeDelete;
+  }
+
+  function closeDeleteModal() {
+    document.getElementById('delete-modal').classList.remove('show');
+    deletingIndex = null;
   }
 
   function executeDelete() {
-    const i = pendingDeleteIndex;
-    const p = photos[i];
+    const p = photos[deletingIndex];
     if (!p.file.startsWith('pending:')) {
       pendingDeletes.add(p.file);
     } else {
-      const tempId = p.file.split(':')[1];
-      delete pendingUploads[tempId];
+      delete pendingUploads[p.file.slice(8)];
     }
-    photos.splice(i, 1);
-    closeModal();
-    renderPhotoList();
+    photos.splice(deletingIndex, 1);
+    closeDeleteModal();
+    renderGrid();
   }
 
-  function closeModal() {
-    document.getElementById('modal-overlay').classList.remove('show');
-    pendingDeleteIndex = null;
-  }
-
-  document.getElementById('modal-overlay').addEventListener('click', e => {
-    if (e.target === document.getElementById('modal-overlay')) closeModal();
+  document.getElementById('delete-modal').addEventListener('click', e => {
+    if (e.target === document.getElementById('delete-modal')) closeDeleteModal();
   });
 
-  /* ── Profile photo ── */
+  /* ──────────── PROFILE ──────────── */
+
   function changeProfile(input) {
     const file = input.files[0];
     if (!file) return;
-    pendingProfileFile = file;
+    pendingProfile = file;
     document.getElementById('profile-preview').src = URL.createObjectURL(file);
     input.value = '';
   }
 
-  /* ── Publish ── */
+  /* ──────────── PUBLISH ──────────── */
+
   async function publishChanges() {
     const btn = document.getElementById('publish-btn');
     btn.disabled = true;
-    showToast('Publishing…', 'loading');
+
+    const steps = pendingDeletes.size + Object.keys(pendingUploads).length
+                  + 1 + (pendingProfile ? 1 : 0);
+    let step = 0;
 
     try {
-      let step = 0;
-      const total = pendingDeletes.size + Object.keys(pendingUploads).length + 1
-                    + (pendingProfileFile ? 1 : 0);
-
-      // 1. Delete removed photos
+      // 1. Delete removed files
       for (const filePath of pendingDeletes) {
-        showToast(`Deleting files… (${++step}/${total})`, 'loading');
+        showToast(`Deleting (${++step}/${steps})…`, 'loading');
         try {
-          const fileData = await ghGetFile(filePath);
-          await ghDeleteFile(filePath, fileData.sha, `Remove ${filePath}`);
+          const f = await ghGet(filePath);
+          await ghDelete(filePath, f.sha, `Remove ${filePath}`);
         } catch (e) {
-          // If file not found on GitHub, that's fine — skip
-          if (!e.message.includes('404')) throw e;
+          if (!e.message.includes('404') && !e.message.includes('Not Found')) throw e;
         }
       }
       pendingDeletes.clear();
 
-      // 2. Upload new photos
-      for (const [tempId, upload] of Object.entries(pendingUploads)) {
-        showToast(`Uploading photos… (${++step}/${total})`, 'loading');
-        const base64 = await fileToBase64(upload.file);
-        await ghPutFile(upload.filename, base64, null, `Upload ${upload.file.name || tempId}`);
-        // Replace pending reference in photos array
-        const idx = photos.findIndex(p => p.file === `pending:${tempId}`);
-        if (idx !== -1) photos[idx].file = upload.filename;
-        delete pendingUploads[tempId];
+      // 2. Upload new images
+      for (const [id, u] of Object.entries(pendingUploads)) {
+        showToast(`Uploading photo (${++step}/${steps})…`, 'loading');
+        const b64 = await fileToBase64(u.file);
+        await ghPut(u.filename, b64, null, `Upload ${u.file.name}`);
+        const idx = photos.findIndex(p => p.file === `pending:${id}`);
+        if (idx !== -1) photos[idx].file = u.filename;
+        delete pendingUploads[id];
       }
 
       // 3. Save data.json
-      showToast(`Saving gallery data… (${++step}/${total})`, 'loading');
-      const jsonStr   = JSON.stringify({ photos }, null, 2);
-      const jsonB64   = textToBase64(jsonStr);
-      const result    = await ghPutFile('data.json', jsonB64, dataJsonSha, 'Update gallery data');
-      dataJsonSha     = result.content.sha;
+      showToast(`Saving gallery data (${++step}/${steps})…`, 'loading');
+      const res = await ghPut('data.json', textToBase64(JSON.stringify({ photos }, null, 2)), dataJsonSha, 'Update gallery data');
+      dataJsonSha = res.content.sha;
 
       // 4. Upload new profile photo
-      if (pendingProfileFile) {
-        showToast(`Uploading profile photo… (${++step}/${total})`, 'loading');
-        const base64 = await fileToBase64(pendingProfileFile);
-        const result2 = await ghPutFile('profile.jpg', base64, profileSha, 'Update profile photo');
-        profileSha = result2.content.sha;
-        pendingProfileFile = null;
+      if (pendingProfile) {
+        showToast(`Uploading profile photo (${++step}/${steps})…`, 'loading');
+        const b64 = await fileToBase64(pendingProfile);
+        const res2 = await ghPut('profile.jpg', b64, profileSha, 'Update profile photo');
+        profileSha = res2.content.sha;
+        pendingProfile = null;
       }
 
-      renderPhotoList();
-      showToast('Published! Changes will be live in ~1 minute.', 'success');
+      renderGrid();
+      showToast('Published! Live in ~1 minute.', 'success');
     } catch (e) {
       showToast('Publish failed: ' + e.message, 'error');
     } finally {
@@ -822,7 +844,8 @@
     }
   }
 
-  /* ── Toast ── */
+  /* ──────────── TOAST ──────────── */
+
   let toastTimer = null;
 
   function showToast(msg, type = 'loading') {
@@ -830,14 +853,10 @@
     el.textContent = msg;
     el.className = `show ${type}`;
     clearTimeout(toastTimer);
-    if (type !== 'loading') {
-      toastTimer = setTimeout(hideToast, 4000);
-    }
+    if (type !== 'loading') toastTimer = setTimeout(hideToast, 4500);
   }
 
-  function hideToast() {
-    document.getElementById('toast').classList.remove('show');
-  }
+  function hideToast() { document.getElementById('toast').classList.remove('show'); }
 </script>
 </body>
 </html>
