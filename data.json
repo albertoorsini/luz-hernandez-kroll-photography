@@ -4,7 +4,7 @@
       "file": "Image Order/001-Bobcat, California.jpg",
       "title": "Quiet Intensity",
       "location": "California",
-      "desc": "A moment of quiet intensity as a wild Bobcat pauses and fixes its gaze on the world beyond the frame. In the stillness of the early morning, every movement mattersÃ¢ÂÂevery sound, every scent carried by the wind. Encounters like this are fleeting reminders of the quiet power and mystery that roam the wild places of California."
+      "desc": "A moment of quiet intensity as a wild Bobcat pauses and fixes its gaze on the world beyond the frame. In the stillness of the early morning, every movement mattersÃÂ¢ÃÂÃÂevery sound, every scent carried by the wind. Encounters like this are fleeting reminders of the quiet power and mystery that roam the wild places of California."
     },
     {
       "file": "Image Order/002-Mule Deer Fawns, Utah.jpg",
@@ -28,7 +28,7 @@
       "file": "Image Order/005-Red Fox, Utah.jpg",
       "title": "Amber Eyes",
       "location": "Utah",
-      "desc": "Hidden in the shadows of the forest floor, a Red Fox rests while keeping a watchful gaze on its surroundings. The golden light in its eyes reflects both caution and calmÃ¢ÂÂan intimate glimpse into the quiet life of a master of stealth."
+      "desc": "Hidden in the shadows of the forest floor, a Red Fox rests while keeping a watchful gaze on its surroundings. The golden light in its eyes reflects both caution and calmÃÂ¢ÃÂÃÂan intimate glimpse into the quiet life of a master of stealth."
     },
     {
       "file": "Image Order/006-Grizzly Bear Beryl, Yellowstone National Park.jpg",
@@ -44,7 +44,7 @@
     },
     {
       "file": "Image Order/008-Dusky Flycatcher, Utah.jpg",
-      "title": "Quiet Observer",
+      "title": "Subtle Watcher",
       "location": "Utah",
       "desc": "Perched lightly on a morning sun-warmed branch, a delicate Dusky Flycatcher pauses between flights. These subtle woodland birds quietly hunt insects from low perches, bringing life and motion to the mountain forests of the American West."
     },
@@ -128,7 +128,7 @@
     },
     {
       "file": "Image Order/022-Red Squirrel, Utah.jpg",
-      "title": "Quiet Pause",
+      "title": "A Moment Between",
       "location": "Utah",
       "desc": "Perched atop a worn tree stump, a curious Gray Squirrel pauses between bites. In the forest, even the smallest moments reveal the busy rhythms of wildlife life unfolding all around us."
     },
@@ -158,7 +158,7 @@
     },
     {
       "file": "Image Order/027-Bobcat, California.jpg",
-      "title": "Quiet Authority",
+      "title": "Calm Authority",
       "location": "California",
       "desc": "Seated calmly in the meadow, a Bobcat surveys its territory with steady confidence. Elusive and solitary, these stealthy predators move silently through the landscape, rarely revealing themselves."
     },
@@ -238,13 +238,31 @@
       "file": "Image Order/040-Bobcat, California.jpg",
       "title": "Between Light and Silence",
       "location": "Utah",
-      "desc": "Resting quietly among fresh spring greens, a watchful Bobcat blends effortlessly into its surroundings. In this fleeting moment of stillness, light and silence meetÃ¢ÂÂrevealing the quiet beauty of the wild."
+      "desc": "Resting quietly among fresh spring greens, a watchful Bobcat blends effortlessly into its surroundings. In this fleeting moment of stillness, light and silence meetÃÂ¢ÃÂÃÂrevealing the quiet beauty of the wild."
     },
     {
       "file": "Image Order/upload_1775658403348_v0syzl72g5.jpg",
       "title": "Golden Stillness",
       "location": "Utah",
-      "desc": "Bathed in warm evening light, this young red fox kit sits still for just a moment, watching with quiet curiosity. Encounters like this feel almost suspended in time — brief, peaceful, and deeply humbling to witness in the wild."
+      "desc": "Bathed in warm evening light, this young red fox kit sits still for just a moment, watching with quiet curiosity. Encounters like this feel almost suspended in time â brief, peaceful, and deeply humbling to witness in the wild."
+    },
+    {
+      "file": "Image Order/upload_1776557264799_hewzriwtx8i.jpg",
+      "title": "Watching the Horizon",
+      "location": "Utah",
+      "desc": "Moving through sagebrush and cattails, this Mule Deer buck rose above the grass before pausing in stillness. Calm and alert, he scanned his surroundings—fully aware, listening and watching for the presence of does."
+    },
+    {
+      "file": "Image Order/upload_1776557585752_dsfux1fovqs.jpg",
+      "title": "Waiting for the Next Meal",
+      "location": "Utah",
+      "desc": "Perched high in the nest, young Great Horned Owl owlets call out with urgency, their hunger echoing through the still air. In these early days, survival depends on patience, instinct, and the steady return of a watchful parent."
+    },
+    {
+      "file": "Image Order/upload_1776557740053_0hgj1lr8ejet.jpg",
+      "title": "Soft Presence",
+      "location": "Utah",
+      "desc": "Bathed in soft light, a young Mule Deer doe stands alert yet calm, her gentle expression reflecting the quiet rhythm of the landscape. In these fleeting moments, stillness reveals the true elegance of the wild."
     }
   ]
 }
